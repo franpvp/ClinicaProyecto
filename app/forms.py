@@ -1,5 +1,5 @@
 from django import forms
-from .models import RegistroUsuario, Reclamos, ReservarHora, ConfirmarReserva
+from .models import RegistroUsuario, Reclamos, ReservarHora, ConfirmarReserva, RecuperarContraseña
 from django.forms import ModelForm
 
 # Clase del formulario de registro
@@ -61,4 +61,14 @@ class ConfirmarReservaForm(ModelForm):
             'dia_agendado': forms.TextInput(attrs={'class':'form-control'}),
             'hora_agendada': forms.TextInput(attrs={'class':'form-control'}),
 
+        }
+
+class RecuperarContraseñaForm(ModelForm):
+
+    class Meta:
+        model = RecuperarContraseña
+        fields = '__all__'
+
+        widget = {
+            'correo' :forms.TextInput(attrs={'class':'form-control'}),
         }

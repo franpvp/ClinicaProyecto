@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse
-from .forms import RegistroUserForm, ReclamosForm, ReservaForm, ConfirmarReservaForm
+from .forms import RegistroUserForm, ReclamosForm, ReservaForm, ConfirmarReservaForm, RecuperarContraseñaForm
 from django.contrib import messages
 # Funciones que autentican el usuario
 from django.contrib.auth.models import User
@@ -47,8 +47,8 @@ def registro(request):
 
     return render(request, 'app/registro.html', datos)
 
+
 def modPerfil(request):
-    #FUNCIONA BIEN
     if request.user.is_authenticated:
         # campos de la base de datos
         datos = RegistroUsuario.objects.all()
@@ -105,6 +105,16 @@ def confirmarReserva(request, rut, prevision):
     return render(request, 'app/confirmar-reserva.html', context)
 
 def recContraseña(request):
+    if request.method == 'POST':
+        formulario = RecuperarContraseñaForm(request.POST)
+        if formulario.is_valid():
+            correo = formulario.cleaned_data['correo']
+            datos = RegistroUsuario.objects.all()
+            for campo in datos:
+                if correo == campo.correo:
+                    messages.success(request, 'El correo es válido')
+                    return redirect(to="cambio-contraseña")
+
     return render(request, 'app/rec-contraseña.html')
 
 def reclamos(request):
