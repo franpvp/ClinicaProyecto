@@ -28,24 +28,25 @@
         <div class="col"></div>
         <div class="col-xs-10 col-sm-10 col-md-8 col-lg-8">
           <form id="formulario" method="post">
+            {% csrf_token %}
               <!-- Titulo de Formulario -->
               <legend class="titulo-reg text-center mb-2">Modificar Perfil</legend>
               <div class="mb-3 row">
                 <div class="col"><label for="staticEmail" class="col-form-label">Nombres: </label>
                   <div class="col-sm-10">
-                    <input type="text" readonly class="form-control texto" value="{{ form.nombres.value }}" disabled>
+                    <input type="text" readonly class="form-control texto" value="{{ nombres }}" disabled>
                   </div>
                 </div>
                 <div class="col">
                   <label for="staticEmail" class="col-form-label">Apellidos:</label>
                 <div class="col-sm-10">
-                  <input type="text" readonly class="form-control texto" id="staticEmail" value="Bustos Blas" disabled>
+                  <input type="text" readonly class="form-control texto" id="staticEmail" value="{{ apellidos }}" disabled>
                 </div>
                 </div>
               </div>
               <div class="mb-3 row">
                 <div class="col">
-                  <label for="staticEmail" class="col-form-label">Correo: </label>
+                  <label for="staticEmail" class="col-form-label">Correo:</label>
                   <div class="col-sm-10">
                     <input type="text" readonly class="form-control texto" id="staticEmail" value="{{ correo }}" disabled>
                   </div>
@@ -59,7 +60,7 @@
               </div>
               <div class="mb-4 row">
                 <div class="col">
-                  <label for="staticEmail" class="col-form-label">Dirección: </label>
+                  <label for="staticEmail" class="col-form-label">Dirección:</label>
                   <div class="col-sm-10">
                     <input type="text" readonly class="form-control texto" id="staticEmail" value="{{ direccion }}" disabled>
                   </div>

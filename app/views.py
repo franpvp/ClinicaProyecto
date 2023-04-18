@@ -48,16 +48,19 @@ def registro(request):
     return render(request, 'app/registro.html', datos)
 
 def modPerfil(request):
-
+    #FUNCIONA BIEN
     if request.user.is_authenticated:
+        # campos de la base de datos
         datos = RegistroUsuario.objects.all()
-        
+        usuario = request.user.username
         for campo in datos:
-            nombres = campo.nombres
-            apellidos = campo.apellidos
-            correo = campo.correo
-            direccion = campo.direccion
-            nombre_usuario = campo.nombre_usuario
+            if usuario == campo.nombre_usuario:
+                nombres = campo.nombres
+                apellidos = campo.apellidos
+                correo = campo.correo
+                direccion = campo.direccion
+                nombre_usuario = campo.nombre_usuario
+            
     context = {
         'nombres': nombres,
         'apellidos': apellidos,
