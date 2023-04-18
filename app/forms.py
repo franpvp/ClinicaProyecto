@@ -1,5 +1,5 @@
 from django import forms
-from .models import RegistroUsuario, Reclamos, ReservarHora, ConfirmarReserva, RecuperarContraseña
+from .models import RegistroUsuario,Reclamos,ReservarHora,ConfirmarReserva,ModificarPerfil,RecuperarContraseña
 from django.forms import ModelForm
 
 # Clase del formulario de registro
@@ -28,7 +28,7 @@ class ReclamosForm(ModelForm):
         fields = '__all__'
 
         widget = {
-            'nombre': forms.TextInput(attrs={'class':'form-control'}),
+            'nombres': forms.TextInput(attrs={'class':'form-control'}),
             'apellidos': forms.TextInput(attrs={'class':'form-control'}),
             'rut_usuario': forms.TextInput(attrs={'class':'form-control'}),
             'celular': forms.TextInput(attrs={'class':'form-control'}),
@@ -70,5 +70,18 @@ class RecuperarContraseñaForm(ModelForm):
         fields = '__all__'
 
         widget = {
-            'correo' :forms.TextInput(attrs={'class':'form-control'}),
+            'correo': forms.TextInput(attrs={'class':'form-control'}),
+        }
+
+class ModificarPerfilForm(ModelForm):
+
+    class Meta:
+        model = ModificarPerfil
+        fields = '__all__'
+
+        widget = {
+            'nombres': forms.TextInput(attrs={'class':'form-control'}),
+            'apelldos': forms.TextInput(attrs={'class':'form-control'}),
+            'correo': forms.TextInput(attrs={'class':'form-control'}),
+            'direccion': forms.TextInput(attrs={'class':'form-control'}),
         }

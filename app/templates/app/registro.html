@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
 <body>
-      <!-- Nav -->
+    <!-- Nav -->
     {% block nav %}
     {% include 'app/header.html' %}
     {% endblock %}
@@ -27,7 +27,7 @@
       <div class="row">
         <div class="col"></div>
         <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
-          <form id="formulario" method="POST">
+          <form id="formulario" method="post">
             {% csrf_token %}
             <legend class="titulo-reg text-center mb-2">Formulario de Registro</legend>
             <div class="row g-3 mb-3">
@@ -198,15 +198,11 @@
                 </div>
               </div>
             </div>
-
-
-            <div class="invalid-feedback">
-            </div>
+            <!-- Botón -->
             <div class="contenedor-boton">
               <input id="submit" type="submit" class="btn btn-primary link" value="Confirmar">
               <div class="error"></div>
             </div>
-              
           </form>
         </div>
         <div class="col"></div>

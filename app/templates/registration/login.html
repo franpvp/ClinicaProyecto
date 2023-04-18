@@ -19,68 +19,21 @@
    
 </head>
 <body>
-    <!-- Barra nav -->
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <a href="{% url 'home' %}">
-          <div class="navbar-brand logo">
-            <img src="{% static 'app/img/Fondos/fondo-clinica.png' %}" alt="Logo" width="100" height="60" class="d-inline-block align-text-top">
-            MediCast
-          </div>
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarScroll">
-          <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Inicio</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                 Consultas Médicas
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Consultas Médicas</a></li>
-                <li><a class="dropdown-item" href="#">Videoconsulta</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Programas de Salud</a></li>
-              </ul>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Exámenes
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Imágenes y Procedimientos</a></li>
-                <li><a class="dropdown-item" href="#">Exámenes Covid-19</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Resultados de Exámenes</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="{% url 'reclamos' %}">Reclamos</a>
-            </li>
-          </ul>
-          <form>
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <a class="btn btn-outline-primary" href="/accounts/login" role="button">Iniciar Sesión</a>
-              <a class="btn btn-outline-warning" href="{% url 'registro' %}" role="button">Registrarse</a>
-            </div>
-          </form>
-        </div>
-      </div>
-    </nav>
+    <!-- Nav -->
+    {% block nav %}
+    {% include 'app/header.html' %}
+    {% endblock %}
     <!-- Contenido Formulario Inicio de Sesión-->
     <div class="container contenedor-form">
       <div class="row">
         <div class="col"></div>
-        <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
-          <form id="formulario" method="POST">
+        <div class="col-xs-10 col-sm-10 col-md-8 col-lg-5">
+          <form id="formulario" method="post">
             {% csrf_token %}
-            <div class="row g-3 mb-3 justify-content-md-center">
-              <div class="col-8">
+            <div class="row g-3 mb-3">
+              <div class="col">
                 <legend class="titulo-reg mb-3 text-center">Iniciar Sesión</legend>
+                <!-- Input Nombre de Usuario -->
                 <div class="form-floating" id="username">
                   <input type="text" name="{{ form.username.name }}"
                     id="{{ form.username.id_for_label }}"
@@ -93,9 +46,9 @@
                 </div>
               </div>
             </div>
-            
-            <div class="row g-3 mb-3 justify-content-md-center">
-              <div class="col-8">
+            <!-- Input Contraseña -->
+            <div class="row g-3 mb-3">
+              <div class="col">
                 <div class="form-floating" id="password">
                   <input type="password" name="{{ form.password.name }}"
                     id="{{ form.password.id_for_label }}"

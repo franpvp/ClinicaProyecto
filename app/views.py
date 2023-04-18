@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect, reverse
-from .forms import RegistroUserForm, ReclamosForm, ReservaForm, ConfirmarReservaForm, RecuperarContraseñaForm
+from django.shortcuts import render, redirect, reverse, get_object_or_404
+from .forms import RegistroUserForm,ReclamosForm,ReservaForm,ConfirmarReservaForm,ModificarPerfilForm, RecuperarContraseñaForm
 from django.contrib import messages
 # Funciones que autentican el usuario
 from django.contrib.auth.models import User
@@ -49,27 +49,30 @@ def registro(request):
 
 
 def modPerfil(request):
-    if request.user.is_authenticated:
-        # campos de la base de datos
-        datos = RegistroUsuario.objects.all()
-        usuario = request.user.username
-        for campo in datos:
-            if usuario == campo.nombre_usuario:
-                nombres = campo.nombres
-                apellidos = campo.apellidos
-                correo = campo.correo
-                direccion = campo.direccion
-                nombre_usuario = campo.nombre_usuario
-            
-    context = {
-        'nombres': nombres,
-        'apellidos': apellidos,
-        'correo': correo,
-        'nombre_usuario': nombre_usuario,
-        'direccion': direccion
-    }
+    usuario = request.user.username
+    registro = get_object_or_404(RegistroUsuario,nombre_usuario = usuario)
+    print('registro: ', registro)
+    if request.method == 'POST':
+        formulario = RegistroUserForm(request.POST, instance=registro)
+        nombres_input = request.POST.get('nombres')
+        apellidos_input = request.POST.get('apellidos')
+        correo_input = request.POST.get('correo')
+        direccion_input = request.POST.get('direccion')
+        print('nuevos_nombres:', nombres_input)
+        print('nuevos_apellidos:', apellidos_input)
+        print('nuevo_correo:', correo_input)
+        print('nueva_direccion:', direccion_input)
+        # Actualizar la base de datos con los nuevos valores
+        registro.nombres = nombres_input
+        registro.apellidos = apellidos_input
+        registro.correo = correo_input
+        registro.direccion = direccion_input
+        registro.save()
+        messages.success(request, "Los cambios se han guardado exitosamente")
+    else:
+        formulario = RegistroUserForm(instance=registro)
 
-    return render(request, 'app/mod-perfil.html', context)
+    return render(request, 'app/mod-perfil.html', {'form': formulario, 'registro': registro})
 
 def reservarHora(request):
     datos = {
@@ -86,7 +89,7 @@ def reservarHora(request):
         datos["form"] = ReservaForm()
     return render(request, 'app/reservar-hora.html')
 
-def confirmarReserva(request, rut, prevision):	
+def confirmarReserva(request, rut, prevision):
     datos = {
         'form': ConfirmarReservaForm()
     }
@@ -108,13 +111,22 @@ def recContraseña(request):
     if request.method == 'POST':
         formulario = RecuperarContraseñaForm(request.POST)
         if formulario.is_valid():
+            # Variables
             correo = formulario.cleaned_data['correo']
-            datos = RegistroUsuario.objects.all()
-            for campo in datos:
-                if correo == campo.correo:
-                    messages.success(request, 'El correo es válido')
-                    return redirect(to="cambio-contraseña")
-
+            datos = RegistroUsuario.objects.get(correo=correo)
+            contraseña_nueva = formulario.cleaned_data['contraseña_nueva']
+            confirmar_contraseña = formulario.cleaned_data['confirmar_contraseña']
+            if contraseña_nueva == confirmar_contraseña:
+                usuario = User.objects.get(username = datos.nombre_usuario)
+                datos.contraseña = contraseña_nueva
+                usuario.set_password(contraseña_nueva)
+                # Se guarda usuario con la nueva contraseña
+                usuario.save()
+                # También se guardan cambios en RegistroUsuario
+                datos.save()
+                messages.success(request, "Contraseña actualizada")
+            else:
+                messages.error(request, "Las contraseñas no coinciden")
     return render(request, 'app/rec-contraseña.html')
 
 def reclamos(request):
@@ -124,14 +136,11 @@ def reclamos(request):
     if request.method == 'POST':
         formulario = ReclamosForm(request.POST)
         if formulario.is_valid():
-            rut = request.POST.get('rut')
-            if validar_rut(rut):
-                formulario.save()
-                messages.success(request, "Rut válido")
-            else:
-                messages.error(request, "Rut inválido")
+            formulario.save()
+            messages.success(request, "El reclamo enviado correctamente")
+        else:
+            messages.error(request, "Error al enviar el reclamo")
             
     else:
         datos["form"] = ReclamosForm()
-
     return render(request, 'app/reclamos.html', datos)

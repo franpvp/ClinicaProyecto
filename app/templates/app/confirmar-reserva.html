@@ -39,7 +39,7 @@
                     </div>
                     <div id="rutInv" class="invalid-feedback"></div>
                 </div>
-                <!-- Input Previsión de Salud (Cambiar indice por el texto)-->
+                <!-- Input Previsión de Salud-->
                 <div class="col">
                   <div id="formFloating3" class="form-floating">
                     <input id="prevision" type="text" value="{{ prevision }}" class="form-control" placeholder="name@example.com" disabled>
@@ -51,8 +51,8 @@
                 <!-- Campo Especialidad -->
                 <div class="col">
                   <div class="input-group mb-3">
-                    <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Especialidad:</label>
-                    <select class="form-select" name="prevision">
+                    <label class="input-group-text">Especialidad:</label>
+                    <select class="form-select" name="especialidad">
                       <option value="1">Medicina General</option>
                       <option value="2">Isalud Isapre De Codelco</option>
                       <option value="3">Odontología</option>
@@ -66,8 +66,8 @@
                 <!-- Campo nombre medico -->
                 <div class="col">
                   <div class="input-group mb-3">
-                    <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Médicos:</label>
-                    <select class="form-select" name="prevision">
+                    <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Médico:</label>
+                    <select class="form-select" name="medico">
                       <option value="1">Dr. Marco Bustos</option>
                       <option value="2">Dra. Francisca Valdiva</option>
                       <option value="3">Dra. Nancy Ramirez</option>
@@ -81,7 +81,7 @@
                 <!-- Campo Agendar Dia -->
                 <div class="col">
                   <div id="formFloating3" class="form-floating">
-                    <input type="date" name="fecha"
+                    <input type="date" name="dias_disponibilidad"
                       id="fecha"
                       class="form-control"
                       placeholder="dd-mm-yyyy"

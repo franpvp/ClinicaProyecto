@@ -9,7 +9,7 @@ class RegistroUsuario(models.Model):
     contraseña = models.CharField(max_length=30, verbose_name="Contraseña de usuario")
     repetir_contraseña = models.CharField(max_length=30, verbose_name="Campo repetir contraseña")
     direccion = models.CharField(max_length=60, verbose_name="Dirección de usuario")
-    fecha_nacimiento = models.DateField(verbose_name="Fecha de nacimiento de usuario")
+    fecha_nacimiento = models.DateField(null=True,verbose_name="Fecha de nacimiento de usuario")
 
     def __str__(self):
         return self.nombres
@@ -22,7 +22,7 @@ opciones_usuario = [
 ]
 # Modelo Reclamos
 class Reclamos(models.Model):
-    nombre: models.CharField(max_length=50, verbose_name="Nombres de usuario")
+    nombres: models.CharField(max_length=50, verbose_name="Nombres de usuario")
     apellidos: models.CharField(max_length=50, verbose_name="Apellidos de usuario")
     rut_usuario: models.CharField(max_length=12, verbose_name="Rut de usuario")
     celular: models.IntegerField(max_length=8, verbose_name="Numero de celular usuario")
@@ -82,8 +82,8 @@ opcion_especilidad = [
 
 # Modelo Confirmar Reservar Hora
 class ConfirmarReserva(models.Model):
-    nombre_pac = models.CharField(max_length=40, verbose_name="Nombre Paciente")
-    apellidos_pac = models.CharField(max_length=50, verbose_name="Apelldos Paciente")
+    nombre_pac = models.CharField(null=True,max_length=40, verbose_name="Nombre Paciente")
+    apellidos_pac = models.CharField(null=True,max_length=50, verbose_name="Apelldos Paciente")
     medico = models.CharField(max_length=30, verbose_name="Nombre médico")
     especialidad = models.IntegerField(choices=opcion_especilidad,verbose_name="Especialidad médico",null=False)
     dia_agendado = models.DateField(null=False)
@@ -94,9 +94,20 @@ class ConfirmarReserva(models.Model):
     
 class RecuperarContraseña(models.Model):
     correo = models.CharField(max_length=50)
+    contraseña_nueva = models.CharField(max_length=30)
+    confirmar_contraseña = models.CharField(max_length=30)
 
     def __str__(self):
         return self.correo
+    
+class ModificarPerfil(models.Model):
+    nombres: models.CharField(max_length=50, verbose_name="Nombres de usuario")
+    apellidos: models.CharField(max_length=50, verbose_name="Apellidos de usuario")
+    correo : models.EmailField(max_length=50, verbose_name="Correo de usuario")
+    direccion: models.CharField(max_length=60, verbose_name="Dirección de usuario")
+
+    def __str__(self):
+        return self.nombres
 
     
     
