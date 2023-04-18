@@ -1,0 +1,72 @@
+{% load static %}
+<!-- Barra nav -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+      <a href="{% url 'home' %}">
+        <div class="navbar-brand logo">
+          <img src="{% static 'app/img/Fondos/fondo-clinica.png' %}" alt="Logo" width="100" height="60" class="d-inline-block align-text-top">
+          MediCast
+        </div>
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarScroll">
+        <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Inicio</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+               Consultas Médicas
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Consultas Médicas</a></li>
+              <li><a class="dropdown-item" href="#">Videoconsulta</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Programas de Salud</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Exámenes
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Imágenes y Procedimientos</a></li>
+              <li><a class="dropdown-item" href="#">Exámenes Covid-19</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Resultados de Exámenes</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'reclamos' %}">Reclamos</a>
+          </li>
+        </ul>
+        <!-- Registro e Inicio de Sesión -->
+        <form method="post">
+          {% csrf_token %}
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <!-- Si el usuario está autenticado se ejecuta lo siguiente -->
+            {% if user.is_authenticated %}
+              <div class="btn-group">
+                <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  @ {{ user.username }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="#" type="button">Configuración</a></li>
+                  <li><a class="dropdown-item" href="{% url 'mod-perfil' %}" type="button">Modificar Perfil</a></li>
+                  <hr>
+                  <li><a class="dropdown-item" href="/accounts/logout/" type="button">Cerrar Sesión</a></li>
+                </ul>
+              </div>
+            {% else %}
+              <!-- <p>Bienvenido, por favor inicie sesión.</p> -->
+              <a class="btn btn-outline-primary" href="/accounts/login/" role="button">Iniciar Sesión</a>
+              <a class="btn btn-outline-warning" href="{% url 'registro' %}" role="button">Registrarse</a>
+            {% endif %}
+          </div>
+        </form>
+      </div>
+    </div>
+  </nav>
