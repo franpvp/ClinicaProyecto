@@ -105,6 +105,8 @@ const valUsername = () => {
 
 /* Validaciones de eyes icons */
 
+/*
+
 const visibilityBtn1 = document.getElementById("visibilityEye1");
 visibilityBtn1.addEventListener("click", toggleVisibility1);
 
@@ -134,6 +136,8 @@ function toggleVisibility2 () {
         icon.innerText = "visibility_off";
     }
 }
+
+*/
 
 /* Input Contraseña1 */
 

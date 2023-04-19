@@ -11,10 +11,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 from pathlib import Path
-import sys
-import oracledb
-oracledb.version = "8.3.0"
-sys.modules["cx_Oracle"] = oracledb
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -96,9 +92,9 @@ os.environ['LD_LIBRARY_PATH'] = '/Users/franciscavaldiviapalma/Downloads/instant
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': '10.211.55.3:1521/xe',
+        'NAME': '127.0.0.1:1521/xe',
         'USER': 'clinica_med',
-        'PASSWORD': 'clinica',
+        'PASSWORD': 'clinca',
         'TEST': {
             'USER': 'default_test',
             'TBLSPACE': 'default_test_tbls',
