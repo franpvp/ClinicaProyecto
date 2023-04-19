@@ -110,15 +110,18 @@
             </div>
             <!-- Boton Enviar -->
             <div class="d-grid gap-2 mb-3 col-6 mx-auto">
-              <input class="btn btn-primary" type="button" value="Enviar">
+              <input class="btn btn-primary" type="submit" value="Enviar">
             </div>
             {% if messages %}
-            <div class="messages text-center error">
-              {% for message in messages %}
-              <div {% if message.tags %} class="{{ message.tags }}" {% endif%}>
-                {{ messages }}
+              <div class="messages">
+                {% for message in messages %}
+                  {% if message.tags == 'success' %}
+                    <div class="success alert alert-success">{{ message }}</div>
+                  {% else %}
+                    <div class="error alert alert-danger">{{ message }}</div>
+                  {% endif %}
+                {% endfor %}
               </div>
-              {% endfor %}
             {% endif %}
             </div>
           </form>
