@@ -28,7 +28,7 @@ class Reclamos(models.Model):
     celular: models.IntegerField(max_length=8, verbose_name="Numero de celular usuario")
     direccion: models.CharField(max_length=60, verbose_name="Direccion de usuario")
     tipo_usuario: models.IntegerField(choices=opciones_usuario)
-    comentarios: models.TextField()
+    comentarios: models.TextField(max_length=150)
 
     def __str__(self):
         return self.nombres

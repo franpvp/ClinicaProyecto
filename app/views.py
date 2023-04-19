@@ -35,6 +35,7 @@ def registro(request):
                     if nombres == '' and apellidos == '' and correo == '' and nombre_usuario == '' and direccion == '' and fecha_nacimiento == '':
                         messages.error(request, 'Debe llenar todos los campos')
                 else:
+                    formulario.save()
                     messages.success(request, 'Usuario registrado exitosamente')
             else:
                 messages.error(request, 'La contraseña debe tener al menos 8 carácteres y un máximo de 15 carácteres')
@@ -43,7 +44,6 @@ def registro(request):
                 username = formulario.cleaned_data.get("nombre_usuario"),
                 password = formulario.cleaned_data.get("contraseña")
             )
-            formulario.save()
             user.save()
             # Mensaje usuario creado correctamente
 
@@ -148,9 +148,9 @@ def reclamos(request):
         formulario = ReclamosForm(request.POST)
         if formulario.is_valid():
             formulario.save()
-            messages.add_message(request, messages.SUCCESS, 'Se ha enviado el reclamo exitosamente')
+            messages.success(request,'Se ha enviado el reclamo exitosamente')
         else:
-            messages.add_message(request, messages.ERROR, 'Error al enviar el reclamo')
+            messages.error(request, 'Error al enviar el reclamo')
             
     else:
         datos["form"] = ReclamosForm()
