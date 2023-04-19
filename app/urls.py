@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import home, registro, modPerfil, reservarHora, recContraseña, reclamos, confirmarReserva
+from .views import home, registro, modPerfil, reservarHora, recContraseña, reclamos, confirmarReserva, loginUser
 
 urlpatterns = [
     path('', home, name="home"),
@@ -10,4 +10,5 @@ urlpatterns = [
     path('confirmar-reserva/<str:rut>/<str:prevision>/',confirmarReserva,name="confirmar-reserva"),
     path('rec-contraseña/', recContraseña, name="rec-contraseña"),
     path('reclamos/', reclamos, name="reclamos"),
+    path('login/', loginUser, name="loginUser" )
 ]

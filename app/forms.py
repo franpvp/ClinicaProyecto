@@ -1,6 +1,7 @@
 from django import forms
-from .models import RegistroUsuario, Reclamos, ReservarHora, ConfirmarReserva
+from .models import RegistroUsuario, Reclamos, ReservarHora, ConfirmarReserva, loginUser
 from django.forms import ModelForm
+from django.forms import ValidationError
 
 # Clase del formulario de registro
 class RegistroUserForm(ModelForm):
@@ -62,3 +63,9 @@ class ConfirmarReservaForm(ModelForm):
             'hora_agendada': forms.TextInput(attrs={'class':'form-control'}),
 
         }
+        
+class loginUserForm(ModelForm):
+    
+    class Meta:
+        model: loginUser
+        fields = '__all__'

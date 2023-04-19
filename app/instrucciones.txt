@@ -1,0 +1,15 @@
+    Marco:
+    - Validar login, registrarse, reclamos, reservar hora.
+    Formulario reserva:
+        - Validar el campo de Dias Disponibilidad que no esté vacío.
+    - Actualizar la contraseña cuando el usuario haya olvidado la contraseña.(Ambos)
+
+    ** Debe incluir como parte de los entregables el MER normalizado de su BD 
+        (puede usar DataModeler para ello). **
+    
+    Francisca:
+    - CRUD : Modificar Perfil.
+    - Crear View Restablecer contraseña.
+    - Agregar botón para eliminar usuario.
+    - Modificar perfil: Lograr que se actualicen los datos en la base de datos.
+

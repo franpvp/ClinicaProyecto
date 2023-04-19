@@ -106,9 +106,23 @@
                     {% if form.password.required %} required {% endif %}>
                   <label for="{form.password.id_for_label}">Contraseña</label>
                 </div>
+                <a href="#">Restablecer Contraseña</a>
                 <div class="contenedor-boton mt-3">
                   <input id="btn-enviar" type="submit" value="Login" class="btn btn-primary link">
                 </div>
+
+                {% if messages %}
+                  <div class="messages">
+                    {% for msg in messages %}
+                      {% if msg.tags == 'success' %}
+                        <div class="success alert alert-success">{{msg}}</div> 
+                      {% else %}
+                        <div class="error alert alert-danger">{{msg}}</div>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
                 <div class="contenedor-boton mt-3">
                   <a id="btn-enviar" type="button" href="/admin/" class="btn btn-secondary link">Login Admin</a>
                 </div>

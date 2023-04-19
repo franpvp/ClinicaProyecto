@@ -92,7 +92,12 @@ class ConfirmarReserva(models.Model):
     def __str__(self):
         return self.nombre_pac
 
+class loginUser(models.Model):
+    nombre_usuario = models.CharField(max_length=30)
+    contraseña = models.CharField(max_length=15)
     
+    def __str__(self):
+        return self.nombre_usuario
     
 
 

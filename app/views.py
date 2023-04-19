@@ -47,11 +47,28 @@ def registro(request):
 
     return render(request, 'app/registro.html', datos)
 
-def modPerfil(request):
+def loginUser(request):
+    
+    formulario = RegistroUserForm(request.POST)   
+    if request.method == 'POST':
+        if formulario.is_valid():
+            usuario = formulario.cleaned_data['nombre_usuario']
+            contraseña = formulario.cleaned_data['contraseña']
+       
+    
+    '''
+    if request.user.is_authenticated():
+        messages.success(request, 'Usuario registrado')
+        return redirect(to='home')
+    else:
+        messages.error(request, 'Usuario no está registrado.')
+        return redirect(to='login') '''
 
+    
+def modPerfil(request):
+    #FUNCIONA BIEN
     if request.user.is_authenticated:
         datos = RegistroUsuario.objects.all()
-        
         for campo in datos:
             nombres = campo.nombres
             apellidos = campo.apellidos
