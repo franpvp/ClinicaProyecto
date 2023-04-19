@@ -30,7 +30,7 @@ class ReclamosForm(ModelForm):
         widget = {
             'nombres': forms.TextInput(attrs={'class':'form-control'}),
             'apellidos': forms.TextInput(attrs={'class':'form-control'}),
-            'rut_usuario': forms.TextInput(attrs={'class':'form-control'}),
+            'rut': forms.TextInput(attrs={'class':'form-control'}),
             'celular': forms.TextInput(attrs={'class':'form-control'}),
             'direccion': forms.TextInput(attrs={'class':'form-control'}),
             'tipo_usuario': forms.TextInput(attrs={'class':'form-control'}),

@@ -66,7 +66,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Celular:</label>
                 <div id="div4" class="col">
-                <input type="text" onblur="valCelu()" class="form-control" id="celular" required>
+                <input id="celular" type="text" name="celular" onblur="valCelu()" class="form-control" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="celularInv" class="invalid-feedback"></div>
@@ -76,7 +76,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Dirección:</label>
                 <div id="div5" class="col">
-                <input type="text" onblur="valDireccion()" class="form-control" id="direccion" required>
+                <input type="text" name="direccion" onblur="valDireccion()" class="form-control" id="direccion" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="direccionInv" class="invalid-feedback"></div>
@@ -86,7 +86,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Usted es:</label>
                 <div class="col">
-                  <select class="form-select" aria-label="Default select example" required>
+                  <select class="form-select" name="tipo_usuario" aria-label="Default select example" required>
                     <option selected>Seleccionar opción</option>
                     <option value="1">Paciente</option>
                     <option value="2">Familiar del Paciente</option>
@@ -98,7 +98,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Comentarios:</label>
                 <div class="col">
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" required></textarea>
+                <textarea class="form-control" name="comentarios" id="exampleFormControlTextarea1" rows="3" required></textarea>
                 </div>
               </div>
               <!--Mensaje de Error para el boton-->

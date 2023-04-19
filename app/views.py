@@ -21,6 +21,23 @@ def registro(request):
     if request.method == 'POST':
         formulario = RegistroUserForm(request.POST)
         if formulario.is_valid():
+            nombres = formulario.cleaned_data['nombres']
+            apellidos = formulario.cleaned_data['apellidos']
+            correo = formulario.cleaned_data['correo']
+            nombre_usuario = formulario.cleaned_data['nombre_usuario']
+            contraseña = formulario.cleaned_data['contraseña']
+            repetir_contraseña = formulario.cleaned_data['repetir_contraseña']
+            direccion = formulario.cleaned_data['direccion']
+            fecha_nacimiento = formulario.cleaned_data['fecha_nacimiento']
+            if len(contraseña) > 8 and len(contraseña) < 15:
+                if contraseña != repetir_contraseña:
+                    messages.error(request, 'Las contraseñas no coinciden')
+                    if nombres == '' and apellidos == '' and correo == '' and nombre_usuario == '' and direccion == '' and fecha_nacimiento == '':
+                        messages.error(request, 'Debe llenar todos los campos')
+                else:
+                    messages.success(request, 'Usuario registrado exitosamente')
+            else:
+                messages.error(request, 'La contraseña debe tener al menos 8 carácteres y un máximo de 15 carácteres')
             # Crear nuevo usuario
             user = User.objects.create_user(
                 username = formulario.cleaned_data.get("nombre_usuario"),
@@ -29,7 +46,7 @@ def registro(request):
             formulario.save()
             user.save()
             # Mensaje usuario creado correctamente
-            messages.success(request, "Usuario registrado correctamente")
+
             usuario = authenticate(
                 username = user.username,
                 password = user.password
@@ -39,8 +56,6 @@ def registro(request):
             if usuario is not None:
                 login(request, usuario)
                 return redirect(to='home')
-            else:
-                messages.error(request, "Nombre de usuario o contraseña incorrectos.")
             
     else:
         datos["form"] = RegistroUserForm()
@@ -58,17 +73,13 @@ def modPerfil(request):
         apellidos_input = request.POST.get('apellidos')
         correo_input = request.POST.get('correo')
         direccion_input = request.POST.get('direccion')
-        print('nuevos_nombres:', nombres_input)
-        print('nuevos_apellidos:', apellidos_input)
-        print('nuevo_correo:', correo_input)
-        print('nueva_direccion:', direccion_input)
         # Actualizar la base de datos con los nuevos valores
         registro.nombres = nombres_input
         registro.apellidos = apellidos_input
         registro.correo = correo_input
         registro.direccion = direccion_input
         registro.save()
-        messages.success(request, "Los cambios se han guardado exitosamente")
+        messages.success(request, "Los cambios se han guardado exitosamente.")
     else:
         formulario = RegistroUserForm(instance=registro)
 
@@ -124,9 +135,9 @@ def recContraseña(request):
                 usuario.save()
                 # También se guardan cambios en RegistroUsuario
                 datos.save()
-                messages.success(request, "Contraseña actualizada")
+                messages.success(request,'Contraseña Actualizada')
             else:
-                messages.error(request, "Las contraseñas no coinciden")
+                messages.error(request,'Las contraseñas no coinciden')
     return render(request, 'app/rec-contraseña.html')
 
 def reclamos(request):
@@ -137,9 +148,9 @@ def reclamos(request):
         formulario = ReclamosForm(request.POST)
         if formulario.is_valid():
             formulario.save()
-            messages.success(request, "El reclamo enviado correctamente")
+            messages.add_message(request, messages.SUCCESS, 'Se ha enviado el reclamo exitosamente')
         else:
-            messages.error(request, "Error al enviar el reclamo")
+            messages.add_message(request, messages.ERROR, 'Error al enviar el reclamo')
             
     else:
         datos["form"] = ReclamosForm()

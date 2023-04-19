@@ -24,14 +24,14 @@ opciones_usuario = [
 class Reclamos(models.Model):
     nombres: models.CharField(max_length=50, verbose_name="Nombres de usuario")
     apellidos: models.CharField(max_length=50, verbose_name="Apellidos de usuario")
-    rut_usuario: models.CharField(max_length=12, verbose_name="Rut de usuario")
+    rut: models.CharField(max_length=12, verbose_name="Rut de usuario")
     celular: models.IntegerField(max_length=8, verbose_name="Numero de celular usuario")
     direccion: models.CharField(max_length=60, verbose_name="Direccion de usuario")
     tipo_usuario: models.IntegerField(choices=opciones_usuario)
     comentarios: models.TextField()
 
     def __str__(self):
-        return self.nombre
+        return self.nombres
     
 # Modelo Especialidad
 class Especialidad(models.Model):
