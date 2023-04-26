@@ -29,6 +29,7 @@ def registro(request):
             repetir_contraseña = formulario.cleaned_data['repetir_contraseña']
             direccion = formulario.cleaned_data['direccion']
             fecha_nacimiento = formulario.cleaned_data['fecha_nacimiento']
+            
             if len(contraseña) > 8 and len(contraseña) < 15:
                 if contraseña != repetir_contraseña:
                     messages.error(request, 'Las contraseñas no coinciden')
@@ -39,6 +40,7 @@ def registro(request):
                     messages.success(request, 'Usuario registrado exitosamente')
             else:
                 messages.error(request, 'La contraseña debe tener al menos 8 carácteres y un máximo de 15 carácteres')
+            
             # Crear nuevo usuario
             user = User.objects.create_user(
                 username = formulario.cleaned_data.get("nombre_usuario"),

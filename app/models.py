@@ -29,6 +29,7 @@ class Reclamos(models.Model):
     direccion: models.CharField(max_length=60, verbose_name="Direccion de usuario")
     tipo_usuario: models.IntegerField(choices=opciones_usuario)
     comentarios: models.TextField(max_length=150)
+    usuario_id : models.ForeignKey(RegistroUsuario, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombres
