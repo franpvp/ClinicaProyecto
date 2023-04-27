@@ -1,5 +1,5 @@
 from django import forms
-from .models import RegistroUsuario,Reclamos,ReservarHora,ConfirmarReserva,ModificarPerfil,RecuperarContraseña
+from .models import RegistroUsuario,Reclamo,ReservarHora,ConfirmarReserva,ModificarPerfil,RecuperarContraseña
 from django.forms import ModelForm
 
 # Clase del formulario de registro
@@ -21,18 +21,19 @@ class RegistroUserForm(ModelForm):
             'fecha_nacimiento': forms.TextInput(attrs={'class':'form-control'}),
         }
     
-class ReclamosForm(ModelForm):
+class ReclamoForm(ModelForm):
 
     class Meta:
-        model = Reclamos
+        model = Reclamo
         fields = '__all__'
 
         widget = {
-            'nombres': forms.TextInput(attrs={'class':'form-control'}),
-            'apellidos': forms.TextInput(attrs={'class':'form-control'}),
-            'rut': forms.TextInput(attrs={'class':'form-control'}),
+            'id_rec':forms.TextInput(attrs={'class':'form-control'}),
+            'nombres_rec': forms.TextInput(attrs={'class':'form-control'}),
+            'apellidos_rec': forms.TextInput(attrs={'class':'form-control'}),
+            'rut_rec': forms.TextInput(attrs={'class':'form-control'}),
             'celular': forms.TextInput(attrs={'class':'form-control'}),
-            'direccion': forms.TextInput(attrs={'class':'form-control'}),
+            'direccion_rec': forms.TextInput(attrs={'class':'form-control'}),
             'tipo_usuario': forms.TextInput(attrs={'class':'form-control'}),
             'comentarios': forms.TextInput(attrs={'class':'form-control'}),
         }
@@ -47,7 +48,6 @@ class ReservaForm(ModelForm):
             'rut_pac': forms.TextInput(attrs={'class':'form-control'}),
             'prevision': forms.TextInput(attrs={'class':'form-control'}),
         }
-
 
 class ConfirmarReservaForm(ModelForm):
 

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from .forms import RegistroUserForm,ReclamosForm,ReservaForm,ConfirmarReservaForm,ModificarPerfilForm, RecuperarContraseñaForm
+from .forms import RegistroUserForm,ReclamoForm,ReservaForm,ConfirmarReservaForm,ModificarPerfilForm, RecuperarContraseñaForm
 from django.contrib import messages
 # Funciones que autentican el usuario
 from django.contrib.auth.models import User
@@ -144,10 +144,10 @@ def recContraseña(request):
 
 def reclamos(request):
     datos = {
-        'form': ReclamosForm()
+        'form': ReclamoForm()
     }
     if request.method == 'POST':
-        formulario = ReclamosForm(request.POST)
+        formulario = ReclamoForm(request.POST)
         if formulario.is_valid():
             formulario.save()
             messages.success(request,'Se ha enviado el reclamo exitosamente')
@@ -155,5 +155,5 @@ def reclamos(request):
             messages.error(request, 'Error al enviar el reclamo')
             
     else:
-        datos["form"] = ReclamosForm()
+        datos["form"] = ReclamoForm()
     return render(request, 'app/reclamos.html', datos)

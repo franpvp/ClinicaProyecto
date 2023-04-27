@@ -10,5 +10,5 @@ urlpatterns = [
     path('reservar-hora/',reservarHora,name="reservar-hora"),
     path('confirmar-reserva/<str:rut>/<str:prevision>/',confirmarReserva,name="confirmar-reserva"),
     path('rec-contraseña/', recContraseña, name="rec-contraseña"),
-    path('reclamos/', reclamos, name="reclamos"),
+    path('reclamo/', reclamos, name="reclamo"),
 ]

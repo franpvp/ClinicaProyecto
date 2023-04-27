@@ -2,6 +2,7 @@ from django.db import models
 
 # Modelo Registro de Usuario (Campos de Formulario de registro)
 class RegistroUsuario(models.Model):
+    id_user = models.IntegerField(primary_key=True, verbose_name="Id usuario")
     nombres = models.CharField(max_length=50, verbose_name="Nombres del usuario")
     apellidos = models.CharField(max_length=50, verbose_name="Apellidos del usuario")
     correo = models.EmailField(max_length=50, verbose_name="Correo de usuario")
@@ -20,29 +21,30 @@ opciones_usuario = [
     [1, "Familiar Paciente"],
     [2, "Otro"]
 ]
-# Modelo Reclamos
-class Reclamos(models.Model):
-    nombres: models.CharField(max_length=50, verbose_name="Nombres de usuario")
-    apellidos: models.CharField(max_length=50, verbose_name="Apellidos de usuario")
-    rut: models.CharField(max_length=12, verbose_name="Rut de usuario")
-    celular: models.IntegerField(max_length=8, verbose_name="Numero de celular usuario")
-    direccion: models.CharField(max_length=60, verbose_name="Direccion de usuario")
-    tipo_usuario: models.IntegerField(choices=opciones_usuario)
-    comentarios: models.TextField(max_length=150)
-    usuario_id : models.ForeignKey(RegistroUsuario, on_delete=models.CASCADE)
+# Modelo Reclamo
+class Reclamo(models.Model):
+    id_rec = models.IntegerField(primary_key=True, verbose_name="Id reclamo")
+    nombres_rec = models.CharField(max_length=50, verbose_name="Nombres de usuario")
+    apellidos_rec = models.CharField(max_length=50, verbose_name="Apellidos de usuario")
+    rut_rec = models.CharField(max_length=12, verbose_name="Rut de usuario")
+    celular = models.IntegerField(verbose_name="Numero de celular usuario")
+    direccion_rec = models.CharField(max_length=60, verbose_name="Direccion de usuario")
+    tipo_usuario = models.IntegerField(choices=opciones_usuario)
+    comentarios = models.TextField(max_length=150)
 
     def __str__(self):
-        return self.nombres
+        return self.nombres_rec
     
 # Modelo Especialidad
 class Especialidad(models.Model):
+    id_esp = models.IntegerField(primary_key=True, verbose_name="Id especialidad")
     nombre_esp = models.CharField(max_length=30,null=False,verbose_name="Nombre de la especialidad")
 
     def __str__(self):
         return self.nombre_esp
     
 # Modelo Médicos
-class Medicos(models.Model):
+class Medico(models.Model):
     nombre_completo = models.CharField(max_length=30, verbose_name="Nombre médico")
     rut_med = models.CharField(max_length=12,unique=True,verbose_name="Rut médico")
     id_esp = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
@@ -102,10 +104,10 @@ class RecuperarContraseña(models.Model):
         return self.correo
     
 class ModificarPerfil(models.Model):
-    nombres: models.CharField(max_length=50, verbose_name="Nombres de usuario")
-    apellidos: models.CharField(max_length=50, verbose_name="Apellidos de usuario")
-    correo : models.EmailField(max_length=50, verbose_name="Correo de usuario")
-    direccion: models.CharField(max_length=60, verbose_name="Dirección de usuario")
+    nombres = models.CharField(max_length=50, verbose_name="Nombres de usuario")
+    apellidos = models.CharField(max_length=50, verbose_name="Apellidos de usuario")
+    correo = models.EmailField(max_length=50, verbose_name="Correo de usuario")
+    direccion = models.CharField(max_length=60, verbose_name="Dirección de usuario")
 
     def __str__(self):
         return self.nombres
