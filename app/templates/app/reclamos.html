@@ -86,11 +86,10 @@
               <div class="row mb-3">
                 <label class="col-form-label">Usted es:</label>
                 <div class="col">
-                  <select class="form-select" name="tipo_usuario" aria-label="Default select example" required>
-                    <option selected>Seleccionar opción</option>
-                    <option value="1">Paciente</option>
-                    <option value="2">Familiar del Paciente</option>
-                    <option value="3">Otro</option>
+                  <select class="form-select" name="id_tipo_usuario" aria-label="Default select example">
+                    {% for tipo_usuario in tipo_usuarios %}
+                        <option value="{{ tipo_usuario.id_tipo_usuario }}">{{ tipo_usuario.nombre_tipo_usuario }}</option>
+                    {% endfor %}
                   </select>
                 </div>
               </div>

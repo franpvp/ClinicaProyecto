@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required
 from .utils import validar_rut, getPrev
-from .models import RegistroUsuario
+from .models import RegistroUsuario, TipoUsuario
 
 # Create your views here.
 
@@ -146,8 +146,11 @@ def reclamos(request):
     datos = {
         'form': ReclamoForm()
     }
+    tipo_usuarios = TipoUsuario.objects.all()
+    context = {'tipo_usuarios': tipo_usuarios}
     if request.method == 'POST':
         formulario = ReclamoForm(request.POST)
+        print(formulario.errors)
         if formulario.is_valid():
             formulario.save()
             messages.success(request,'Se ha enviado el reclamo exitosamente')
@@ -156,4 +159,4 @@ def reclamos(request):
             
     else:
         datos["form"] = ReclamoForm()
-    return render(request, 'app/reclamos.html', datos)
+    return render(request, 'app/reclamos.html', context)

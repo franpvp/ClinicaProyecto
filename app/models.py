@@ -2,7 +2,7 @@ from django.db import models
 
 # Modelo Registro de Usuario (Campos de Formulario de registro)
 class RegistroUsuario(models.Model):
-    id_user = models.IntegerField(primary_key=True, verbose_name="Id usuario")
+    id_user = models.AutoField(auto_created=True, unique=True,primary_key=True, verbose_name="Id usuario")
     nombres = models.CharField(max_length=50, verbose_name="Nombres del usuario")
     apellidos = models.CharField(max_length=50, verbose_name="Apellidos del usuario")
     correo = models.EmailField(max_length=50, verbose_name="Correo de usuario")
@@ -16,21 +16,24 @@ class RegistroUsuario(models.Model):
         return self.nombres
 
 # Lista de opciones para variable "tipo_usuario"
-opciones_usuario = [
-    [0, "Paciente"],
-    [1, "Familiar Paciente"],
-    [2, "Otro"]
-]
+class TipoUsuario(models.Model):
+    id_tipo_usuario = models.IntegerField(primary_key=True,auto_created=True, unique=True)
+    nombre_tipo_usuario = models.CharField(max_length=20, verbose_name="Nombre tipo usuario")
+
+    def __str__(self):
+        return self.nombre_tipo_usuario
+    
 # Modelo Reclamo
 class Reclamo(models.Model):
-    id_rec = models.IntegerField(primary_key=True, verbose_name="Id reclamo")
-    nombres_rec = models.CharField(max_length=50, verbose_name="Nombres de usuario")
-    apellidos_rec = models.CharField(max_length=50, verbose_name="Apellidos de usuario")
-    rut_rec = models.CharField(max_length=12, verbose_name="Rut de usuario")
-    celular = models.IntegerField(verbose_name="Numero de celular usuario")
-    direccion_rec = models.CharField(max_length=60, verbose_name="Direccion de usuario")
-    tipo_usuario = models.IntegerField(choices=opciones_usuario)
-    comentarios = models.TextField(max_length=150)
+    id_rec = models.AutoField(auto_created=True, unique=True, primary_key=True, verbose_name="Id reclamo")
+    nombres_rec = models.CharField(max_length=50, verbose_name="Nombres usuario")
+    apellidos_rec = models.CharField(max_length=50, verbose_name="Apellidos usuario")
+    rut_rec = models.CharField(max_length=12, verbose_name="Rut usuario")
+    celular = models.CharField(max_length=9,verbose_name="Nro celular usuario")
+    direccion_rec = models.CharField(max_length=60, verbose_name="Direccion usuario")
+    id_tipo_usuario = models.ForeignKey(TipoUsuario, on_delete=models.CASCADE)
+    comentarios = models.TextField(max_length=150, verbose_name="Comentarios")
+    
 
     def __str__(self):
         return self.nombres_rec
@@ -45,13 +48,15 @@ class Especialidad(models.Model):
     
 # Modelo Médicos
 class Medico(models.Model):
-    nombre_completo = models.CharField(max_length=30, verbose_name="Nombre médico")
+    id_med = models.IntegerField(primary_key=True, verbose_name="Id medico")
     rut_med = models.CharField(max_length=12,unique=True,verbose_name="Rut médico")
+    nombre_completo = models.CharField(max_length=30, verbose_name="Nombre médico")
     id_esp = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre_completo
 
+# Crear clase Prevision y conectarlo con ReservarHora
 opciones_prev = [
     [0, "Fondo Nacional de Salud(Fonasa)"],
     [1, "Isalud Isapre De Codelco"],
@@ -85,6 +90,7 @@ opcion_especilidad = [
 
 # Modelo Confirmar Reservar Hora
 class ConfirmarReserva(models.Model):
+    id_res = models.IntegerField(primary_key=True, verbose_name="Id reserva")
     nombre_pac = models.CharField(null=True,max_length=40, verbose_name="Nombre Paciente")
     apellidos_pac = models.CharField(null=True,max_length=50, verbose_name="Apelldos Paciente")
     medico = models.CharField(max_length=30, verbose_name="Nombre médico")
