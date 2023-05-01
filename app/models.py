@@ -33,7 +33,6 @@ class Reclamo(models.Model):
     direccion_rec = models.CharField(max_length=60, verbose_name="Direccion usuario")
     id_tipo_usuario = models.ForeignKey(TipoUsuario, on_delete=models.CASCADE)
     comentarios = models.TextField(max_length=150, verbose_name="Comentarios")
-    
 
     def __str__(self):
         return self.nombres_rec
@@ -118,7 +117,17 @@ class ModificarPerfil(models.Model):
     def __str__(self):
         return self.nombres
 
+class ConsultaMed(models.Model):
+    busqueda = models.CharField(max_length=50, verbose_name="Busqueda medicamento")
+
+    def __str__(self):
+        return self.busqueda
     
+class ConsultasEnfermedades(models.Model):
+    busqueda_enf = models.CharField(max_length=100,verbose_name="Busqueda enfermedad")
+
+    def __str__(self):
+        return self.busqueda_enf
     
 
 

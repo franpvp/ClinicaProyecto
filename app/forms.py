@@ -1,5 +1,5 @@
 from django import forms
-from .models import RegistroUsuario,Reclamo,ReservarHora,ConfirmarReserva,ModificarPerfil,RecuperarContraseña
+from .models import RegistroUsuario,Reclamo,ReservarHora,ConfirmarReserva,ModificarPerfil,RecuperarContraseña, ConsultaMed, ConsultasEnfermedades
 from django.forms import ModelForm
 
 # Clase del formulario de registro
@@ -85,3 +85,15 @@ class ModificarPerfilForm(ModelForm):
             'correo': forms.TextInput(attrs={'class':'form-control'}),
             'direccion': forms.TextInput(attrs={'class':'form-control'}),
         }
+
+class ConsultaMedForm(ModelForm):
+
+    class Meta:
+        model = ConsultaMed
+        fields = '__all__'
+
+class ConsultaEnfForm(ModelForm):
+
+    class Meta:
+        model = ConsultasEnfermedades
+        fields = '__all__'

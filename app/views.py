@@ -8,6 +8,9 @@ from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required
 from .utils import validar_rut, getPrev
 from .models import RegistroUsuario, TipoUsuario
+import requests
+from googletrans import Translator
+
 
 # Create your views here.
 
@@ -160,3 +163,63 @@ def reclamos(request):
     else:
         datos["form"] = ReclamoForm()
     return render(request, 'app/reclamos.html', context)
+
+# Sección Modelos Api Externa
+def consultasMed(request):
+    context = {}
+    if request.method == 'GET' and 'nombre' in request.GET:
+        nombre_med = request.GET['nombre']
+        translator = Translator()
+        nombre_med_en = translator.translate(nombre_med, dest='en').text
+
+        url = f'https://api.fda.gov/drug/label.json?search=openfda.brand_name:"{nombre_med_en}"&limit=1'
+        response = requests.get(url)
+        if response.status_code == 200:
+            data = response.json()
+            marca = data['results'][0]['openfda']['brand_name'][0]
+            descripcion = data['results'][0]['indications_and_usage'][0]
+            ingredientes = data['results'][0]['active_ingredient'][0]
+
+            marca_es = translator.translate(marca, dest='es').text
+            descripcion_es = translator.translate(descripcion, dest='es').text
+            ingredientes_es = translator.translate(ingredientes, dest='es').text
+
+            context = {
+                'marca': marca_es,
+                'descripcion': descripcion_es,
+                'ingredientes': ingredientes_es,
+            }
+    else:
+        messages.error(request, 'Ingrese un medicamento')
+
+    return render(request, 'app/consultas-medicamentos.html', context)
+
+def consultasEnfermedad(request):
+    context = {}
+    disease_name = ''
+    definition = ''
+    synonyms = ''
+    response = None
+    if request.method == 'GET' and 'nombre' in request.GET:
+        nombre_enf = request.GET['nombre']
+        url = f'https://www.ebi.ac.uk/ols/api/ontologies/doid/terms?q={nombre_enf}'
+        response = requests.get(url)
+
+    if response is not None and response.status_code == 200:
+        response_json = response.json()
+
+        disease_name = response_json["_embedded"]["terms"][0]["label"]
+        definition = response_json["_embedded"][0]["description"]
+        synonyms = ", ".join(response_json["_embedded"][0]["synonyms"])
+
+        disease_name = response_json["name"]
+        definition = response_json["definition"]
+        synonyms = ", ".join(response_json["synonyms"])
+
+    context = {
+        "disease_name": disease_name,
+        "definition": definition,
+        "synonyms": synonyms
+    }
+
+    return render(request, 'app/consultas-enfermedades.html', context)

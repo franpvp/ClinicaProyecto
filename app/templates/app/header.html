@@ -28,16 +28,11 @@
               <li><a class="dropdown-item" href="#">Programas de Salud</a></li>
             </ul>
           </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Exámenes
-            </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Imágenes y Procedimientos</a></li>
-              <li><a class="dropdown-item" href="#">Exámenes Covid-19</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Resultados de Exámenes</a></li>
-            </ul>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'consulta-med' %}">Buscador de Medicamentos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'consulta-enf' %}">Buscador de Enfermedades</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="{% url 'reclamo' %}">Reclamos</a>
