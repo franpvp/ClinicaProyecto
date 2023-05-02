@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
-from app.models import RegistroUsuario
-from .serializers import RegistroUsuarioSerializers
+from app.models import RegistroUsuario, Medico
+from .serializers import RegistroUsuarioSerializers, MedicoSerializers
 
 # Create your views here.
 @csrf_exempt
@@ -24,3 +24,21 @@ def lista_reg_usuarios(request):
             return Response(serializer.data, status= status.HTTP_201_CREATED)
         else:
             return Response(serializer.error, status = status.HTTP_400_BAD_REQUEST)
+        
+#Lista de Medicos Registrados:
+@csrf_exempt
+@api_view(['GET','POST'])
+def lista_reg_medicos(request):
+    if request.method == 'GET':
+        medico = Medico.objects.all()
+        serializer = MedicoSerializers(medico, many=True)
+        return Response(serializer.data)
+    
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = MedicoSerializers(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status= status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.error, status= status.HTTP_400_BAD_REQUEST)
