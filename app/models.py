@@ -49,51 +49,34 @@ class Especialidad(models.Model):
 class Medico(models.Model):
     id_med = models.IntegerField(primary_key=True, verbose_name="Id medico")
     rut_med = models.CharField(max_length=12,unique=True,verbose_name="Rut médico")
-    nombre_completo = models.CharField(max_length=30, verbose_name="Nombre médico")
+    nombre_completo = models.CharField(max_length=50, verbose_name="Nombre médico")
     id_esp = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre_completo
 
-# Crear clase Prevision y conectarlo con ReservarHora
-opciones_prev = [
-    [0, "Fondo Nacional de Salud(Fonasa)"],
-    [1, "Isalud Isapre De Codelco"],
-    [2, "Isapre Banmédica"],
-    [3, "Isapre Colmena"],
-    [4, "Isapre Consalud"],
-    [5, "Isapre Cruz Blanca"],
-    [6, "Isapre Cruz Del Norte"],
-    [7, "Isapre Fundación Banco Estado"],
-    [8, "Isapre Nueva Másvida"],
-    [9, "Isapre Vida Tres"],
-    [10, "Particular"]
-]
+class Prevision(models.Model):
+    id_prev = models.IntegerField(primary_key=True, verbose_name="Id previsión")
+    nombre_prev = models.CharField(max_length=40, verbose_name="Nombre previsión")
+
+    def __str__(self):
+        return self.nombre_prev
 
 # Modelo Reservar Hora
 class ReservarHora(models.Model):
     rut_pac = models.CharField(max_length=12,verbose_name="Rut de paciente")
-    prevision = models.IntegerField(choices=opciones_prev)
+    id_prev = models.ForeignKey(Prevision,on_delete=models.CASCADE, verbose_name="Id previsión")
 
     def __str__(self):
         return self.rut_pac
-
-opcion_especilidad = [
-    [0,"Medicina General"],
-    [1,"Odontología"],
-    [2,"Psicología"],
-    [3,"Pediatría"],
-    [4,"Dermatología"],
-    [5,"Ginecología y Obstetricia"]
-]
 
 # Modelo Confirmar Reservar Hora
 class ConfirmarReserva(models.Model):
     id_res = models.IntegerField(primary_key=True, verbose_name="Id reserva")
     nombre_pac = models.CharField(null=True,max_length=40, verbose_name="Nombre Paciente")
     apellidos_pac = models.CharField(null=True,max_length=50, verbose_name="Apelldos Paciente")
-    medico = models.CharField(max_length=30, verbose_name="Nombre médico")
-    especialidad = models.IntegerField(choices=opcion_especilidad,verbose_name="Especialidad médico",null=False)
+    nombre_medico = models.CharField(max_length=30, verbose_name="Nombre médico")
+    id_esp = models.ForeignKey(Especialidad,on_delete=models.CASCADE,verbose_name="Especialidad médico")
     dia_agendado = models.DateField(null=False)
     hora_agendada = models.TimeField(null=False)
 

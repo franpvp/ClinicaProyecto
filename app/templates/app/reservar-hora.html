@@ -44,19 +44,11 @@
               <!-- Input Previsión de Salud -->
               <div class="col">
                 <div class="input-group mb-3">
-                  <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Previsión</label>
-                  <select class="form-select" name="prevision">
-                    <option value="1">Fondo Nacional de Salud(Fonasa)</option>
-                    <option value="2">Isalud Isapre De Codelco</option>
-                    <option value="3">Isapre Banmédica</option>
-                    <option value="4">Isapre Colmena</option>
-                    <option value="5">Isapre Consalud</option>
-                    <option value="6">Isapre Cruz Blanca</option>
-                    <option value="7">Isapre Cruz Del Norte</option>
-                    <option value="8">Isapre Fundación Banco Estado</option>
-                    <option value="9">Isapre Nueva Másvida</option>
-                    <option value="10">Isapre Vida Tres</option>
-                    <option value="11">Particular</option>
+                  <label class="input-group-text">Previsión</label>
+                  <select class="form-select" name="id_prev" aria-label="Default select example">
+                    {% for prev in tipo_prevision %}
+                        <option value="{{ prev.id_prev }}">{{ prev.nombre_prev }}</option>
+                    {% endfor %}
                   </select>
                 </div>
                 <div id="passInvalid" class="invalid-feedback"></div>

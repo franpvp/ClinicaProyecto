@@ -6,8 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required
-from .utils import validar_rut, getPrev
-from .models import RegistroUsuario, TipoUsuario
+from .utils import validar_rut
+from .models import RegistroUsuario, TipoUsuario, Prevision, Especialidad, Medico
 import requests
 from googletrans import Translator
 
@@ -94,32 +94,42 @@ def reservarHora(request):
     datos = {
         'form': ReservaForm()
     }
+    tipo_prevision = Prevision.objects.all()
+    context = {'tipo_prevision': tipo_prevision}
     if request.method == 'POST':
         formulario = ReservaForm(request.POST)
         if formulario.is_valid():
             rut = formulario.cleaned_data['rut_pac']
-            prevision = formulario.cleaned_data['prevision']
-            texto = getPrev(prevision)
-            return redirect(reverse('confirmar-reserva',kwargs={'rut': rut,'prevision': texto}))
+            for prevision in tipo_prevision:
+                return redirect(reverse('confirmar-reserva',kwargs={'rut': rut,'prevision': prevision}))
     else:
         datos["form"] = ReservaForm()
-    return render(request, 'app/reservar-hora.html')
+    return render(request, 'app/reservar-hora.html',context)
 
 def confirmarReserva(request, rut, prevision):
     datos = {
         'form': ConfirmarReservaForm()
     }
-    context = {
-        'rut': rut,
-        'prevision': prevision
-    }
+    especialidades = Especialidad.objects.all()
+    medicos = None
+    
     if request.method == 'POST':
         formulario = ConfirmarReservaForm(request.POST)
         if formulario.is_valid():
+            id_esp = formulario.cleaned_data['especialidad']
+            especialidad = Especialidad.objects.get(pk=id_esp)
+            medicos = Medico.objects.select_related('id_esp').filter(id_esp=especialidad)
             formulario.save()
             messages.success(request, "Hora agendada exitosamante")
     else:
         datos["form"] = ConfirmarReservaForm()
+    
+    context = {
+        'rut': rut,
+        'prevision': prevision,
+        'especialidades': especialidades,
+        'medicos': medicos
+    }
 
     return render(request, 'app/confirmar-reserva.html', context)
 
@@ -164,7 +174,12 @@ def reclamos(request):
         datos["form"] = ReclamoForm()
     return render(request, 'app/reclamos.html', context)
 
+def medico_por_especialidad(request):
+    medicos_por_especialidad = Medico.objects.select_related('id_esp').order_by('especialidad__nombre')
+    return render(request, 'medicos_por_especialidad.html', {'medicos_por_especialidad': medicos_por_especialidad})
+
 # Sección Modelos Api Externa
+# Consulta Medicamentos
 def consultasMed(request):
     context = {}
     if request.method == 'GET' and 'nombre' in request.GET:
@@ -194,6 +209,7 @@ def consultasMed(request):
 
     return render(request, 'app/consultas-medicamentos.html', context)
 
+# Falta arreglar la API
 def consultasEnfermedad(request):
     context = {}
     disease_name = ''
@@ -209,8 +225,8 @@ def consultasEnfermedad(request):
         response_json = response.json()
 
         disease_name = response_json["_embedded"]["terms"][0]["label"]
-        definition = response_json["_embedded"][0]["description"]
-        synonyms = ", ".join(response_json["_embedded"][0]["synonyms"])
+        definition = response_json["_embedded"]["terms"][0]["definition"]
+        synonyms = ", ".join(response_json["_embedded"]["terms"]["synonyms"])
 
         disease_name = response_json["name"]
         definition = response_json["definition"]

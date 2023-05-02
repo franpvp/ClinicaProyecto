@@ -52,14 +52,10 @@
                 <div class="col">
                   <div class="input-group mb-3">
                     <label class="input-group-text">Especialidad:</label>
-                    <select class="form-select" name="especialidad">
-                      <option value="1">Medicina General</option>
-                      <option value="2">Isalud Isapre De Codelco</option>
-                      <option value="3">Odontología</option>
-                      <option value="4">Psicología</option>
-                      <option value="5">Pediatría</option>
-                      <option value="6">Dermatología</option>
-                      <option value="7">Ginecología y Obstetricia</option>
+                    <select class="form-select" name="especialidad" aria-label="Default select example">
+                      {% for esp in especialidades %}
+                        <option value="{{ esp.id_esp }}">{{ esp.nombre_esp }}</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>
@@ -67,11 +63,10 @@
                 <div class="col">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Médico:</label>
-                    <select class="form-select" name="medico">
-                      <option value="1">Dr. Marco Bustos</option>
-                      <option value="2">Dra. Francisca Valdiva</option>
-                      <option value="3">Dra. Nancy Ramirez</option>
-                      <option value="4">Dr. Rodolfo Palma</option>
+                    <select class="form-select" name="medico" aria-label="Default select example">
+                        {% for medico in medicos %}
+                          <option value="{{ medico.id_med }}">{{ medico.nombre_completo }}</option>
+                        {% endfor %}
                     </select>
                   </div>
                 </div>

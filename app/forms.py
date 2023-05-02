@@ -29,6 +29,7 @@ class ReclamoForm(ModelForm):
         fields = '__all__'
 
         widget = {
+            'id_rec': forms.TextInput(attrs={'class':'form-control'}),
             'nombres_rec': forms.TextInput(attrs={'class':'form-control'}),
             'apellidos_rec': forms.TextInput(attrs={'class':'form-control'}),
             'rut_rec': forms.TextInput(attrs={'class':'form-control'}),
