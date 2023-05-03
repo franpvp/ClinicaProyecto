@@ -106,11 +106,11 @@ class ConsultaMed(models.Model):
     def __str__(self):
         return self.busqueda
     
-class ConsultasEnfermedades(models.Model):
-    busqueda_enf = models.CharField(max_length=100,verbose_name="Busqueda enfermedad")
+class ConsultaCovid19(models.Model):
+    pais = models.CharField(max_length=100,verbose_name="Busqueda enfermedad")
 
     def __str__(self):
-        return self.busqueda_enf
+        return self.pais
     
 
 

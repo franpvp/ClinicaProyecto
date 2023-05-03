@@ -210,32 +210,30 @@ def consultasMed(request):
     return render(request, 'app/consultas-medicamentos.html', context)
 
 # Falta arreglar la API
-def consultasEnfermedad(request):
+def consultasCovid19(request):
     context = {}
-    disease_name = ''
-    definition = ''
-    synonyms = ''
-    response = None
-    if request.method == 'GET' and 'nombre' in request.GET:
-        nombre_enf = request.GET['nombre']
-        url = f'https://www.ebi.ac.uk/ols/api/ontologies/doid/terms?q={nombre_enf}'
+    if request.method == 'GET' and 'pais' in request.GET:
+        pais_es = request.GET.get('pais')
+        translator = Translator()
+        pais_en = translator.translate(pais_es, dest='en').text
+        url = f"https://api.covid19tracker.ca/reports?region={pais_en}"
         response = requests.get(url)
 
-    if response is not None and response.status_code == 200:
-        response_json = response.json()
+        if response is not None and response.status_code == 200:
+            data = response.json()
+            latest_data = data['data'][-1]
+            casos_totales = latest_data['total_cases']
+            total_muertes = latest_data['total_fatalities']
+            total_recuperaciones = latest_data['total_recoveries']
 
-        disease_name = response_json["_embedded"]["terms"][0]["label"]
-        definition = response_json["_embedded"]["terms"][0]["definition"]
-        synonyms = ", ".join(response_json["_embedded"]["terms"]["synonyms"])
+            context = {
+                    'pais': pais_es.capitalize(),
+                    'casos_totales': casos_totales,
+                    'total_muertes': total_muertes,
+                    'total_recuperaciones': total_recuperaciones,
+                }
+    else:
+        messages.error(request, 'Ingrese un país')
 
-        disease_name = response_json["name"]
-        definition = response_json["definition"]
-        synonyms = ", ".join(response_json["synonyms"])
 
-    context = {
-        "disease_name": disease_name,
-        "definition": definition,
-        "synonyms": synonyms
-    }
-
-    return render(request, 'app/consultas-enfermedades.html', context)
+    return render(request, 'app/consultas-covid.html', context)

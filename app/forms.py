@@ -1,5 +1,5 @@
 from django import forms
-from .models import RegistroUsuario,Reclamo,ReservarHora,ConfirmarReserva,ModificarPerfil,RecuperarContraseña, ConsultaMed, ConsultasEnfermedades
+from .models import RegistroUsuario,Reclamo,ReservarHora,ConfirmarReserva,ModificarPerfil,RecuperarContraseña, ConsultaMed, ConsultaCovid19
 from django.forms import ModelForm
 
 # Clase del formulario de registro
@@ -93,8 +93,8 @@ class ConsultaMedForm(ModelForm):
         model = ConsultaMed
         fields = '__all__'
 
-class ConsultaEnfForm(ModelForm):
+class ConsultaCovidForm(ModelForm):
 
     class Meta:
-        model = ConsultasEnfermedades
+        model = ConsultaCovid19
         fields = '__all__'

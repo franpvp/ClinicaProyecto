@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import home,registro,modPerfil,login,reservarHora,recContraseña,reclamos,confirmarReserva,consultasMed, consultasEnfermedad
+from .views import home,registro,modPerfil,login,reservarHora,recContraseña,reclamos,confirmarReserva,consultasMed, consultasCovid19
 
 urlpatterns = [
     path('', home, name="home"),
@@ -12,5 +12,5 @@ urlpatterns = [
     path('rec-contraseña/', recContraseña, name="rec-contraseña"),
     path('reclamo/', reclamos, name="reclamo"),
     path('consulta-med/',consultasMed,name="consulta-med"),
-    path('consutla-enf', consultasEnfermedad, name="consulta-enf"),
+    path('consulta-covid/', consultasCovid19, name="consulta-covid"),
 ]
