@@ -54,7 +54,7 @@
                     <label class="input-group-text">Especialidad:</label>
                     <select class="form-select" name="especialidad" aria-label="Default select example">
                       {% for esp in especialidades %}
-                        <option value="{{ esp.id_esp }}">{{ esp.nombre_esp }}</option>
+                        <option value="especialidad">{{ esp.nombre_esp }}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -63,10 +63,10 @@
                 <div class="col">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Médico:</label>
-                    <select class="form-select" name="medico" aria-label="Default select example">
-                        {% for medico in medicos %}
-                          <option value="{{ medico.id_med }}">{{ medico.nombre_completo }}</option>
-                        {% endfor %}
+                    <select class="form-select" name="form.medico.name" aria-label="Default select example">
+                      {% for medico in medicos %}
+                        <option value="{{ medico.id_med }}">{{ medico.nombre_completo }}</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>
@@ -107,7 +107,7 @@
               </div>
               <!-- Boton Confirmar -->
               <div class="contenedor-boton">
-                <a id="btn-enviar" type="submit" class="btn btn-primary link">Confirmar</a>
+                <button id="btn-enviar" type="submit" class="btn btn-primary link">Confirmar</button>
               </div>
             </form>
           </div>

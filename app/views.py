@@ -100,8 +100,10 @@ def reservarHora(request):
         formulario = ReservaForm(request.POST)
         if formulario.is_valid():
             rut = formulario.cleaned_data['rut_pac']
+            prevision = formulario.cleaned_data['prevision']
             for prevision in tipo_prevision:
-                return redirect(reverse('confirmar-reserva',kwargs={'rut': rut,'prevision': prevision}))
+                nombre_prev = prevision.nombre_prev
+            return redirect(reverse('confirmar-reserva',kwargs={'rut': rut,'prevision': nombre_prev}))
     else:
         datos["form"] = ReservaForm()
     return render(request, 'app/reservar-hora.html',context)
@@ -111,7 +113,7 @@ def confirmarReserva(request, rut, prevision):
         'form': ConfirmarReservaForm()
     }
     especialidades = Especialidad.objects.all()
-    medicos = None
+    Medico
     
     if request.method == 'POST':
         formulario = ConfirmarReservaForm(request.POST)
@@ -121,6 +123,8 @@ def confirmarReserva(request, rut, prevision):
             medicos = Medico.objects.select_related('id_esp').filter(id_esp=especialidad)
             formulario.save()
             messages.success(request, "Hora agendada exitosamante")
+        else:
+            messages.error(request, "Error al confirmar hora")
     else:
         datos["form"] = ConfirmarReservaForm()
     
@@ -128,7 +132,7 @@ def confirmarReserva(request, rut, prevision):
         'rut': rut,
         'prevision': prevision,
         'especialidades': especialidades,
-        'medicos': medicos
+        'medicos': medicos,
     }
 
     return render(request, 'app/confirmar-reserva.html', context)
@@ -174,9 +178,7 @@ def reclamos(request):
         datos["form"] = ReclamoForm()
     return render(request, 'app/reclamos.html', context)
 
-def medico_por_especialidad(request):
-    medicos_por_especialidad = Medico.objects.select_related('id_esp').order_by('especialidad__nombre')
-    return render(request, 'medicos_por_especialidad.html', {'medicos_por_especialidad': medicos_por_especialidad})
+
 
 # Sección Modelos Api Externa
 # Consulta Medicamentos
@@ -184,28 +186,34 @@ def consultasMed(request):
     context = {}
     if request.method == 'GET' and 'nombre' in request.GET:
         nombre_med = request.GET['nombre']
-        translator = Translator()
-        nombre_med_en = translator.translate(nombre_med, dest='en').text
+        if nombre_med:
+            translator = Translator()
+            nombre_med_en = translator.translate(nombre_med, dest='en').text
 
-        url = f'https://api.fda.gov/drug/label.json?search=openfda.brand_name:"{nombre_med_en}"&limit=1'
-        response = requests.get(url)
-        if response.status_code == 200:
-            data = response.json()
-            marca = data['results'][0]['openfda']['brand_name'][0]
-            descripcion = data['results'][0]['indications_and_usage'][0]
-            ingredientes = data['results'][0]['active_ingredient'][0]
+            url = f'https://api.fda.gov/drug/label.json?search=openfda.brand_name:"{nombre_med_en}"&limit=1'
+            response = requests.get(url)
+            if response is not None and response.status_code == 200:
+                data = response.json()
+                if data is not None:
+                    marca = data['results'][0]['openfda']['brand_name'][0]
+                    descripcion = data['results'][0]['indications_and_usage'][0]
+                    ingredientes = data['results'][0]['active_ingredient'][0]
 
-            marca_es = translator.translate(marca, dest='es').text
-            descripcion_es = translator.translate(descripcion, dest='es').text
-            ingredientes_es = translator.translate(ingredientes, dest='es').text
+                    marca_es = translator.translate(marca, dest='es').text
+                    descripcion_es = translator.translate(descripcion, dest='es').text
+                    ingredientes_es = translator.translate(ingredientes, dest='es').text
 
-            context = {
-                'marca': marca_es,
-                'descripcion': descripcion_es,
-                'ingredientes': ingredientes_es,
-            }
-    else:
-        messages.error(request, 'Ingrese un medicamento')
+                    context = {
+                        'marca': marca_es,
+                        'descripcion': descripcion_es,
+                        'ingredientes': ingredientes_es,
+                    }
+                else:
+                    messages.error(request, 'No se encontraron datos')
+            else:
+                messages.error(request, 'Ingrese un medicamento')
+        else:
+            messages.error(request, "Ingrese medicamento")
 
     return render(request, 'app/consultas-medicamentos.html', context)
 
@@ -214,26 +222,31 @@ def consultasCovid19(request):
     context = {}
     if request.method == 'GET' and 'pais' in request.GET:
         pais_es = request.GET.get('pais')
-        translator = Translator()
-        pais_en = translator.translate(pais_es, dest='en').text
-        url = f"https://api.covid19tracker.ca/reports?region={pais_en}"
-        response = requests.get(url)
+        if pais_es:
+            translator = Translator()
+            pais_en = translator.translate(pais_es, dest='en').text
+            url = f"https://api.covid19tracker.ca/reports?region={pais_en}"
+            response = requests.get(url)
 
-        if response is not None and response.status_code == 200:
-            data = response.json()
-            latest_data = data['data'][-1]
-            casos_totales = latest_data['total_cases']
-            total_muertes = latest_data['total_fatalities']
-            total_recuperaciones = latest_data['total_recoveries']
+            if response is not None and response.status_code == 200:
+                data = response.json()
+                if 'data' in data and len(data['data']) > 0:
+                    latest_data = data['data'][-1]
+                    casos_totales = latest_data['total_cases']
+                    total_muertes = latest_data['total_fatalities']
+                    total_recuperaciones = latest_data['total_recoveries']
 
-            context = {
-                    'pais': pais_es.capitalize(),
-                    'casos_totales': casos_totales,
-                    'total_muertes': total_muertes,
-                    'total_recuperaciones': total_recuperaciones,
-                }
-    else:
-        messages.error(request, 'Ingrese un país')
-
+                    context = {
+                            'pais': pais_es.capitalize(),
+                            'casos_totales': casos_totales,
+                            'total_muertes': total_muertes,
+                            'total_recuperaciones': total_recuperaciones,
+                    }
+                else:
+                    messages.error(request, 'No se encontraron datos para el país especificado.')
+            else:
+                messages.error(request, 'Hubo un error al buscar los datos para el país especificado.')
+        else:
+            messages.error(request, "Ingrese pais")
 
     return render(request, 'app/consultas-covid.html', context)

@@ -42,6 +42,17 @@
                     <div class="contenedor-boton mb-3">
                         <button id="btn-enviar" type="submit" class="btn btn-primary link">Buscar</button>
                     </div>
+                    {% if messages %}
+                        <div class="messages">
+                            {% for message in messages %}
+                            {% if message.tags == 'success' %}
+                                <div class="success alert alert-success text-center">{{ message }}</div>
+                            {% else %}
+                                <div class="error alert alert-danger text-center">{{ message }}</div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </form>
                 {% if pais %}
                 <legend class="titulo-reg mb-3 text-center">{{ pais }}</legend>
