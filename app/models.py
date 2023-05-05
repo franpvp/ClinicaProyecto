@@ -2,7 +2,7 @@ from django.db import models
 
 # Modelo Registro de Usuario (Campos de Formulario de registro)
 class RegistroUsuario(models.Model):
-    id_user = models.AutoField(auto_created=True, unique=True,primary_key=True, verbose_name="Id usuario")
+    id_user = models.AutoField(primary_key=True,auto_created=True, unique=True,verbose_name="Id usuario")
     nombres = models.CharField(max_length=50, verbose_name="Nombres del usuario")
     apellidos = models.CharField(max_length=50, verbose_name="Apellidos del usuario")
     correo = models.EmailField(max_length=50, verbose_name="Correo de usuario")
@@ -25,7 +25,7 @@ class TipoUsuario(models.Model):
     
 # Modelo Reclamo
 class Reclamo(models.Model):
-    id_rec = models.AutoField(auto_created=True, unique=True, primary_key=True, verbose_name="Id reclamo")
+    id_reclamo = models.AutoField(primary_key=True,auto_created=True, unique=True, verbose_name="Id reclamo")
     nombres_rec = models.CharField(max_length=50, verbose_name="Nombres usuario")
     apellidos_rec = models.CharField(max_length=50, verbose_name="Apellidos usuario")
     rut_rec = models.CharField(max_length=12, verbose_name="Rut usuario")

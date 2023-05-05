@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'app',
     'rest_framework',
     'rest_api',
+    'rest_framework.authtoken',
 ]
 
 LOGIN_REDIRECT_URL = '/'
@@ -86,6 +87,12 @@ TEMPLATES = [
         },
     },
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 WSGI_APPLICATION = 'ClinicaProyecto.wsgi.application'
 

@@ -1,15 +1,19 @@
 from django.shortcuts import render
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.parsers import JSONParser
 from django.views.decorators.csrf import csrf_exempt
 from app.models import RegistroUsuario, Medico
 from .serializers import RegistroUsuarioSerializers, MedicoSerializers
 
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
 # Create your views here.
 @csrf_exempt
 @api_view(['GET','POST'])
+@permission_classes((IsAuthenticated,))
 # Lista de usuarios registrados
 def lista_reg_usuarios(request):
     if request.method == 'GET':
@@ -28,6 +32,7 @@ def lista_reg_usuarios(request):
 #Lista de Medicos Registrados:
 @csrf_exempt
 @api_view(['GET','POST'])
+@permission_classes((IsAuthenticated,))
 def lista_reg_medicos(request):
     if request.method == 'GET':
         medico = Medico.objects.all()
@@ -45,6 +50,7 @@ def lista_reg_medicos(request):
 
 @csrf_exempt
 @api_view(['GET','PUT','DELETE'])    
+@permission_classes((IsAuthenticated,))
 def reg_usuario_mod(request,id):
     try:
         usuario = RegistroUsuario.objects.get(id_user = id)

@@ -164,10 +164,11 @@ def reclamos(request):
         'form': ReclamoForm()
     }
     tipo_usuarios = TipoUsuario.objects.all()
-    context = {'tipo_usuarios': tipo_usuarios}
+    context = {
+        'tipo_usuarios': tipo_usuarios
+    }
     if request.method == 'POST':
         formulario = ReclamoForm(request.POST)
-        print(formulario.errors)
         if formulario.is_valid():
             formulario.save()
             messages.success(request,'Se ha enviado el reclamo exitosamente')
@@ -177,7 +178,6 @@ def reclamos(request):
     else:
         datos["form"] = ReclamoForm()
     return render(request, 'app/reclamos.html', context)
-
 
 
 # Sección Modelos Api Externa
