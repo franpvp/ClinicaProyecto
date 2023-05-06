@@ -31,8 +31,8 @@
                         <div class="col">
                             <legend class="titulo-reg mb-3 text-center">Buscador de Medicamentos</legend>
                             <div class="form-floating">
-                                <input type="text" name="nombre"
-                                  id="nombre"
+                                <input type="text" name="nombre_med"
+                                  id="nombre_med"
                                   class="form-control"
                                   placeholder="name@example.cl">
                                 <label>Ingrese el nombre del medicamento: </label>
@@ -55,7 +55,7 @@
                     {% endif %}
                 </form>
                 <!-- Si ingresa un medicamento van a aparecer los datos -->
-                {% if marca %}
+                {% if nombre_generico %}
                     <div class="row g-3 mt-3">
                         <div class="col">
                             <legend class="titulo-reg mb-3 text-center">Información del medicamento</legend>
@@ -64,14 +64,13 @@
                     <!-- Campo Marca -->
                     <div class="row g-3">
                         <div class="col">
-                            <!-- Input Nombre de Usuario -->
-                            <div class="form-floating" id="marca">
+                            <div class="form-floating" id="id_med">
                               <input type="text"
                                 class="form-control"
                                 placeholder="name@example.cl"
-                                value="{{ marca }}"
+                                value="{{ nombre_generico }}"
                                 disabled>
-                              <label>Marca: </label>
+                              <label>Nombre genérico:</label>
                             </div>
                         </div>
                     </div>
@@ -80,27 +79,29 @@
                         <div class="col">
                             <p>
                                 <button class="btn btn-primary form-control" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                    Descripción
+                                    Contenido
                                 </button>
                             </p>
                             <div class="collapse" id="collapseExample">
                                 <div class="card card-body">
-                                    {{ descripcion }}
+                                    {{ contenido }}
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="row g-3 mt-2 text-center">
-                        <!-- Campo Ingredientes -->
+                        <!-- Campo  -->
                         <div class="col">
                             <p>
                                 <button class="btn btn-primary form-control" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                                    Ingredientes
+                                   Ingredientes activos
                                 </button>
                             </p>
                             <div class="collapse" id="collapseExample">
                                 <div class="card card-body">
-                                    {{ ingredientes }}
+                                    <ul>
+                                        <li>{{ nombre }} - {{ strength }}</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

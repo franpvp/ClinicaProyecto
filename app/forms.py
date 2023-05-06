@@ -10,7 +10,7 @@ class RegistroUserForm(ModelForm):
         fields = ['id_user','nombres','apellidos','correo','nombre_usuario','contraseña',
                   'repetir_contraseña','direccion','fecha_nacimiento']
     
-        widget = {
+        widgets = {
             'id_user': forms.TextInput(attrs={'class':'form-control'}),
             'nombres': forms.TextInput(attrs={'class':'form-control'}),
             'apellidos': forms.TextInput(attrs={'class':'form-control'}),
@@ -33,12 +33,13 @@ class ReservaForm(ModelForm):
 
     class Meta:
         model = ReservarHora
-        fields = '__all__'
+        fields = ['rut','prevision']
 
-        widget = {
-            'rut_pac': forms.TextInput(attrs={'class':'form-control'}),
-            'prevision': forms.TextInput(attrs={'class':'form-control'}),
+        widgets = {
+            'rut': forms.TextInput(attrs={'class':'form-control'}),
+            'prevision': forms.Select(attrs={'class':'form-control'}),
         }
+
 
 class ConfirmarReservaForm(ModelForm):
 
@@ -46,7 +47,9 @@ class ConfirmarReservaForm(ModelForm):
         model = ConfirmarReserva
         fields = '__all__'
 
-        widget = {
+        widgets = {
+            'rut': forms.TextInput(attrs={'class':'form-control'}),
+            'prevision': forms.Select(attrs={'class':'form-control'}),
             'medico': forms.TextInput(attrs={'class':'form-control'}),
             'especialidad': forms.TextInput(attrs={'class':'form-control'}),
             'dia_agendado': forms.TextInput(attrs={'class':'form-control'}),
@@ -60,7 +63,7 @@ class RecuperarContraseñaForm(ModelForm):
         model = RecuperarContraseña
         fields = '__all__'
 
-        widget = {
+        widgets = {
             'correo': forms.TextInput(attrs={'class':'form-control'}),
         }
 
@@ -70,7 +73,7 @@ class ModificarPerfilForm(ModelForm):
         model = ModificarPerfil
         fields = '__all__'
 
-        widget = {
+        widgets = {
             'nombres': forms.TextInput(attrs={'class':'form-control'}),
             'apellidos': forms.TextInput(attrs={'class':'form-control'}),
             'correo': forms.TextInput(attrs={'class':'form-control'}),

@@ -94,18 +94,21 @@ def reservarHora(request):
     datos = {
         'form': ReservaForm()
     }
-    tipo_prevision = Prevision.objects.all()
-    context = {'tipo_prevision': tipo_prevision}
+    
+
     if request.method == 'POST':
         formulario = ReservaForm(request.POST)
         if formulario.is_valid():
-            rut = formulario.cleaned_data['rut_pac']
+            rut = formulario.cleaned_data['rut']
             prevision = formulario.cleaned_data['prevision']
-            for prevision in tipo_prevision:
-                nombre_prev = prevision.nombre_prev
-            return redirect(reverse('confirmar-reserva',kwargs={'rut': rut,'prevision': nombre_prev}))
+            return redirect('/confirmar-reserva/' + rut + '/' + str(prevision))
     else:
         datos["form"] = ReservaForm()
+
+    tipo_prevision = Prevision.objects.all()
+    context = {
+        'tipo_prev': tipo_prevision
+    }
     return render(request, 'app/reservar-hora.html',context)
 
 def confirmarReserva(request, rut, prevision):
@@ -113,14 +116,18 @@ def confirmarReserva(request, rut, prevision):
         'form': ConfirmarReservaForm()
     }
     especialidades = Especialidad.objects.all()
-    Medico
+    medicos = Medico.objects.all()
+
+    context = {
+        'rut': rut,
+        'prevision': prevision,
+        'especialidades': especialidades,
+        'medicos': medicos
+    }
     
     if request.method == 'POST':
         formulario = ConfirmarReservaForm(request.POST)
         if formulario.is_valid():
-            id_esp = formulario.cleaned_data['especialidad']
-            especialidad = Especialidad.objects.get(pk=id_esp)
-            medicos = Medico.objects.select_related('id_esp').filter(id_esp=especialidad)
             formulario.save()
             messages.success(request, "Hora agendada exitosamante")
         else:
@@ -128,12 +135,7 @@ def confirmarReserva(request, rut, prevision):
     else:
         datos["form"] = ConfirmarReservaForm()
     
-    context = {
-        'rut': rut,
-        'prevision': prevision,
-        'especialidades': especialidades,
-        'medicos': medicos,
-    }
+    
 
     return render(request, 'app/confirmar-reserva.html', context)
 
@@ -184,36 +186,48 @@ def reclamos(request):
 # Consulta Medicamentos
 def consultasMed(request):
     context = {}
-    if request.method == 'GET' and 'nombre' in request.GET:
-        nombre_med = request.GET['nombre']
-        if nombre_med:
+    if request.method == 'GET' and 'nombre_med' in request.GET:
+        nombre_med_es = request.GET['nombre_med']
+        if nombre_med_es:
             translator = Translator()
-            nombre_med_en = translator.translate(nombre_med, dest='en').text
-
-            url = f'https://api.fda.gov/drug/label.json?search=openfda.brand_name:"{nombre_med_en}"&limit=1'
-            response = requests.get(url)
+            nombre_med_en = translator.translate(nombre_med_es, dest='en').text
+            url = f"https://drug-info-and-price-history.p.rapidapi.com/1/druginfo"
+            querystring = {"drug":nombre_med_en}
+            headers = {
+                "X-RapidAPI-Key": "52bf35fa53msh933aff161eed14dp1483c8jsn2e1b489a7442",
+                "X-RapidAPI-Host": "drug-info-and-price-history.p.rapidapi.com"
+            }
+            response = requests.get(url, headers=headers, params=querystring)
             if response is not None and response.status_code == 200:
                 data = response.json()
                 if data is not None:
-                    marca = data['results'][0]['openfda']['brand_name'][0]
-                    descripcion = data['results'][0]['indications_and_usage'][0]
-                    ingredientes = data['results'][0]['active_ingredient'][0]
+                    nombre_generico = data[0]['generic_name']
+                    contenido = data[0]['packaging'][0]['description']
+                    ingredientes_activos = data[0]['active_ingredients']
 
-                    marca_es = translator.translate(marca, dest='es').text
-                    descripcion_es = translator.translate(descripcion, dest='es').text
-                    ingredientes_es = translator.translate(ingredientes, dest='es').text
-
+                    nombre_generico_es = translator.translate(nombre_generico, dest='es').text
+                    contenido_es = translator.translate(contenido, dest='es').text
+                    for ingrediente in ingredientes_activos:
+                        nombre = ingrediente['name']
+                        strength = ingrediente['strength']
+                        nombre_es = translator.translate(nombre, dest='es').text
+                        strength_es = translator.translate(strength, dest='es').text
+                    
                     context = {
-                        'marca': marca_es,
-                        'descripcion': descripcion_es,
-                        'ingredientes': ingredientes_es,
+                        'nombre_generico': nombre_generico_es,
+                        'contenido': contenido_es,
+                        'nombre': nombre_es,
+                        'strength': strength_es
                     }
+
                 else:
                     messages.error(request, 'No se encontraron datos')
             else:
-                messages.error(request, 'Ingrese un medicamento')
+                messages.error(request, 'Error al obtener los datos')
+        elif nombre_med_es == '':
+            messages.error(request, "Ingrese un medicamento")
         else:
-            messages.error(request, "Ingrese medicamento")
+            messages.error(request, "No se ha encontrado el medicamento")
 
     return render(request, 'app/consultas-medicamentos.html', context)
 

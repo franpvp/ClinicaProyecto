@@ -26,7 +26,7 @@
         <div class="row">
           <div class="col"></div>
           <div class="col-xs-10 col-sm-10 col-md-8 col-lg-8">
-            <form id="formulario" method="post">
+            <form id="formulario" method="post" action="">
               {% csrf_token %}
               <!-- Titulo de Formulario -->
               <legend class="titulo-reg text-center mb-2">Formulario Reserva</legend>
@@ -34,7 +34,7 @@
               <!-- Input Rut Paciente -->
                 <div class="col">
                     <div id="formFloating3" class="form-floating">
-                      <input id="rut" type="text" value="{{ rut }}" class="form-control" placeholder="name@example.com" disabled>
+                      <input id="rut" type="text" name="rut" value="{{ rut }}" class="form-control" placeholder="name@example.com" disabled>
                       <label for="floatingInput">Rut: </label>
                     </div>
                     <div id="rutInv" class="invalid-feedback"></div>
@@ -42,7 +42,7 @@
                 <!-- Input Previsión de Salud-->
                 <div class="col">
                   <div id="formFloating3" class="form-floating">
-                    <input id="prevision" type="text" value="{{ prevision }}" class="form-control" placeholder="name@example.com" disabled>
+                    <input id="prevision" type="text" name="prevision" value="{{ prevision }}" class="form-control" placeholder="name@example.com" disabled>
                     <label for="floatingInput">Previsión:</label>
                   </div>
                 </div>
@@ -52,9 +52,9 @@
                 <div class="col">
                   <div class="input-group mb-3">
                     <label class="input-group-text">Especialidad:</label>
-                    <select class="form-select" name="especialidad" aria-label="Default select example">
+                    <select class="form-select" name="especialidades" aria-label="Default select example">
                       {% for esp in especialidades %}
-                        <option value="especialidad">{{ esp.nombre_esp }}</option>
+                        <option value="{{ esp.id_esp }}">{{ esp.nombre_esp }}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -63,7 +63,7 @@
                 <div class="col">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Médico:</label>
-                    <select class="form-select" name="form.medico.name" aria-label="Default select example">
+                    <select class="form-select" name="medicos" aria-label="Default select example">
                       {% for medico in medicos %}
                         <option value="{{ medico.id_med }}">{{ medico.nombre_completo }}</option>
                       {% endfor %}

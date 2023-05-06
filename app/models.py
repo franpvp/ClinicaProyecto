@@ -64,8 +64,8 @@ class Prevision(models.Model):
 
 # Modelo Reservar Hora
 class ReservarHora(models.Model):
-    rut_pac = models.CharField(max_length=12,verbose_name="Rut de paciente")
-    id_prev = models.ForeignKey(Prevision,on_delete=models.CASCADE, verbose_name="Id previsión")
+    rut = models.CharField(max_length=12,verbose_name="Rut de paciente")
+    prevision = models.ForeignKey(Prevision,on_delete=models.CASCADE, verbose_name="Id previsión")
 
     def __str__(self):
         return self.rut_pac

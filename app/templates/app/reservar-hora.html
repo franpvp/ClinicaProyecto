@@ -27,7 +27,7 @@
       <div class="row">
         <div class="col"></div>
         <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
-          <form id="formulario" method="POST">
+          <form id="formulario" method="post" action="{% url 'reservar-hora' %}">
             {% csrf_token %}
               <!-- Titulo de Formulario -->
               <legend class="titulo-reg text-center mb-2">Reservar Hora</legend>
@@ -35,8 +35,8 @@
               <!-- Input Rut Paciente -->
                 <div class="col">
                     <div id="formFloating3" class="form-floating">
-                      <input name="rut_pac" type="text" class="form-control" placeholder="name@example.com" required>
-                      <label for="{{ form.rut.id_for_label }}">Ingrese rut</label>
+                      <input name="rut" type="text" class="form-control" placeholder="name@example.com" required>
+                      <label for="rut">Ingrese rut</label>
                     </div>
                     <div id="rutInv" class="invalid-feedback"></div>
                 </div>
@@ -46,8 +46,8 @@
                 <div class="input-group mb-3">
                   <label class="input-group-text">Previsión</label>
                   <select class="form-select" name="prevision" aria-label="Default select example">
-                    {% for prev in tipo_prevision %}
-                        <option value="{{ prev.id_prev }}">{{ prev.nombre_prev }}</option>
+                    {% for prev in tipo_prev %}
+                      <option value="{{ prev.id_prev }}">{{ prev.nombre_prev }}</option>
                     {% endfor %}
                   </select>
                 </div>
@@ -55,7 +55,7 @@
               </div>
               <!-- Boton Confirmar -->
               <div class="contenedor-boton">
-                <input id="btn-enviar" type="submit" class="btn btn-primary link" value="Confirmar">
+                <button id="btn-enviar" type="submit" class="btn btn-primary link">Confirmar</button>
               </div>
           </form>
         </div>
