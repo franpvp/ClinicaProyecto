@@ -37,6 +37,8 @@
                       id="{{ form.nombres.id_for_label }}"
                       class="form-control"
                       placeholder="name"
+                      pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+"
+                      title="Ingrese ambos nombres"
                       required>
                     <label for="{{ form.nombres.id_for_label}}">Nombres:</label>
                     {% if form.nombres.errors %}
@@ -46,8 +48,7 @@
                       {% endfor %}
                     </div>
                     {% endif %}
-                </div>
-                
+                </div>       
               </div>
 
               <div class="col">
@@ -56,6 +57,8 @@
                     id="{{ form.apellidos.id_for_label }}"
                     class="form-control"
                     placeholder="name"
+                    pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+"
+                    title="Ingrese ambos apellidos"
                     required>
                   <label for="{{ form.apellidos.id_for_label }}">Apellidos:</label>
                   {% if form.apellidos.errors %}
@@ -77,6 +80,8 @@
                     id="correo"
                     class="form-control"
                     placeholder="name@example.cl"
+                    pattern="[a-zA-Z0-9._%+-]+@(gmail.com|hotmail.com)" 
+                    title="El email debe tener formato name@example.com"
                     required>
                   <label >Correo Electrónico:</label>
                   {% if form.correo.errors %}
@@ -94,10 +99,10 @@
                   <input type="text" name="nombre_usuario"
                     id="{{ form.nombre_usuario.id_for_label }}"
                     class="form-control"
-                    placeholder="name@example.cl"
-                    autocomplete="username"
-                    required
-                    {% if form.nombre_usuario.required %} required {% endif %}>
+                    placeholder="username"
+                    pattern="^[a-zA-Z0-9_-]{3,11}$"
+                    title="El nombre tiene que tener un mínimo 3 y maximo 11 caracteres"
+                    required>
                   <label for="{{ form.nombre_usuario.id_for_label }}">Nombre de Usuario:</label>
                   {% if form.nombre_usuario.errors %}
                     <div class="invalid-feedback">
@@ -116,10 +121,11 @@
                   <input type="password" name="contraseña"
                     id="{{ form.contraseña.id_for_label }}"
                     class="form-control"
-                    placeholder="name@example.cl"
-                    autocomplete="current-password"
-                    required
-                    {% if form.contraseña.required %} required {% endif %}>
+                    placeholder="Password"
+                    pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9].*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$"
+                    title="Debe contener al menos 1 letra mayúscula, 1 letra minúscula, 2 dígitos y 
+                      1 caracter especial. Además, el mínimo de caracteres permitidos es de 8."
+                    required>
                   <label for="{{ form.contraseña.id_for_label }}">Contraseña:</label>
                   {% if form.contraseña.errors %}
                     <div class="invalid-feedback">
@@ -157,7 +163,7 @@
                   <input type="text" name="direccion"
                     id="direccion"
                     class="form-control"
-                    placeholder="name@example.cl"
+                    placeholder="Direccion"
                     required>
                   <label >Dirección:</label>
                   {% if form.direccion.errors %}
