@@ -103,26 +103,16 @@ os.environ['LD_LIBRARY_PATH'] = '/Users/franciscavaldiviapalma/Downloads/instant
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.oracle',
-        'NAME': 'k51wvc4cu0qmiizz_high',
-        'USER': 'admin',
-        'PASSWORD': 'Afterlife1998',
-        'OPTIONS': {
-            'config_dir': os.path.join(BASE_DIR, 'app/cartera'),
-            'wallet_location': os.path.join(BASE_DIR, 'app/cartera'),
-            'wallet_password': 'Afterlife1998',
-        }
+        'NAME': '10.211.55.3:1521/xe',
+        'USER': 'clinica_med',
+        'PASSWORD': 'clinica',
+        'TEST': {
+            'USER': 'default_test',
+            'TBLSPACE': 'default_test_tbls',
+            'TBLSPACE_TMP': 'default_test_tbls_tmp',
+        },
     }
 }
-
-
-# connection = oracledb.connect (
-#      user="admin",
-#      password="Afterlife1998",
-#      dsn="k51wvc4cu0qmiizz_high",
-#      config_dir="/Users/franciscavaldiviapalma/Desktop/Analista Programador Computacional/Quinto Bimestre/Programación Web/Semana 8/ClinicaProyecto/app/cartera",
-#      wallet_location="/Users/franciscavaldiviapalma/Desktop/Analista Programador Computacional/Quinto Bimestre/Programación Web/Semana 8/ClinicaProyecto/app/cartera",
-#      wallet_password="Afterlife1998",
-#      )
 
 
 # Password validation
