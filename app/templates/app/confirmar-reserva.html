@@ -23,16 +23,16 @@
 
     <!-- Formulario Reserva de Hora Médica -->
     <div class="container text-center contenedor-form">
-        <div class="row">
+      <div class="row justify-content-md-center">
           <div class="col"></div>
-          <div class="col-xs-10 col-sm-10 col-md-8 col-lg-8">
+          <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8">
             <form id="formulario" method="post" action="">
               {% csrf_token %}
               <!-- Titulo de Formulario -->
               <legend class="titulo-reg text-center mb-2">Formulario Reserva</legend>
               <div class="row g-3 mb-3">
               <!-- Input Rut Paciente -->
-                <div class="col">
+                <div class="col-xs-12 col-md-6 col-lg-6 p-2">
                     <div id="formFloating3" class="form-floating">
                       <input id="rut" type="text" name="rut" value="{{ rut }}" class="form-control" placeholder="name@example.com" readonly>
                       <label for="floatingInput">Rut: </label>
@@ -40,7 +40,7 @@
                     <div id="rutInv" class="invalid-feedback"></div>
                 </div>
                 <!-- Input Previsión de Salud-->
-                <div class="col">
+                <div class="col-xs-12 col-md-6 col-lg-6 p-2">
                   <div id="formFloating3" class="form-floating">
                     <input id="prevision" type="text" name="prevision" value="{{ prevision }}" class="form-control" placeholder="name@example.com" readonly>
                     <label for="floatingInput">Previsión:</label>
@@ -49,7 +49,7 @@
               </div>
               <div class="row g-3 mb-3">
                 <!-- Campo Especialidad -->
-                <div class="col">
+                <div class="col-xs-12 col-md-6 col-lg-6 p-2">
                   <div class="input-group mb-3">
                     <label class="input-group-text">Especialidad:</label>
                     <select class="form-select" name="id_esp" aria-label="Default select example" onchange="actualizarMedicos()">
@@ -60,7 +60,7 @@
                   </div>
                 </div>
                 <!-- Campo nombre medico -->
-                <div class="col">
+                <div class="col-xs-12 col-md-6 col-lg-6 p-2">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Médico:</label>
                     <select id="nombre_medico" class="form-select" name="nombre_medico" aria-label="Default select example">
@@ -74,7 +74,7 @@
               
               <div class="row g-3 mb-3">
                 <!-- Campo Agendar Dia -->
-                <div class="col">
+                <div class="col-xs-12 col-md-6 col-lg-6 p-2">
                   <div id="formFloating3" class="form-floating">
                     <input type="date" name="dia_agendado"
                       id="fecha"
@@ -87,17 +87,19 @@
                   </div>
                 </div>
                 <!-- Campo Agendar Hora -->
-                <div class="col">
+                <div class="col-xs-12 col-md-6 col-lg-6 p-2">
                   <div class="input-group mb-3 ">
                     <label class="input-group-text">Horas Disponibles:</label>
                     <input type="time" name="hora_agendada" class="form-control" min="09:00" max="18:00" step="900" required >
                   </div>
                 </div>
+                <!-- Boton Confirmar -->
               </div>
-              <!-- Boton Confirmar -->
-              <div class="contenedor-boton mb-3">
-                <button id="btn-enviar" type="submit" class="btn btn-primary link">Confirmar</button>
+                <div class="contenedor-boton mb-3">
+                  <button id="btn-enviar" type="submit" class="btn btn-primary link">Confirmar</button>
+                </div>
               </div>
+              
               {% if messages %}
                 <div class="messages">
                   {% for message in messages %}
@@ -110,15 +112,15 @@
                 </div>
               {% endif %}
             </form>
-          </div>
           <div class="col"></div>
         </div>
       </div>
-      <script>
-        var fechaActual = new Date().toISOString().substr(0, 10);
-        document.getElementById("fecha").min = fechaActual;
-      </script>
+    </div>
+    <script>
+      var fechaActual = new Date().toISOString().substr(0, 10);
+      document.getElementById("fecha").min = fechaActual;
+    </script>
 
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
 </body>
 </html>
