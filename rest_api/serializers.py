@@ -9,7 +9,7 @@ class RegistroUsuarioSerializers(serializers.ModelSerializer):
 class MedicoSerializers(serializers.ModelSerializer):
     class Meta:
         model = Medico
-        fields = ['id_med', 'rut_med', 'nombre_completo', 'id_esp']
+        fields = ['id_med', 'rut_med', 'nombre_completo']
 
 class ReclamoSerializers(serializers.ModelSerializer):
     class Meta:

@@ -98,9 +98,7 @@
                 <div class="contenedor-boton mb-3">
                   <button id="btn-enviar" type="submit" class="btn btn-primary link">Confirmar</button>
                 </div>
-              </div>
-              
-              {% if messages %}
+                {% if messages %}
                 <div class="messages">
                   {% for message in messages %}
                     {% if message.tags == 'success' %}
@@ -112,8 +110,8 @@
                 </div>
               {% endif %}
             </form>
-          <div class="col"></div>
         </div>
+        <div class="col"></div>
       </div>
     </div>
     <script>

@@ -164,6 +164,8 @@
                     id="direccion"
                     class="form-control"
                     placeholder="Direccion"
+                    pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.-]{1,50}\s[0-9]{1,5}" 
+                    title="Ingresa una dirección válida"
                     required>
                   <label >Dirección:</label>
                   {% if form.direccion.errors %}

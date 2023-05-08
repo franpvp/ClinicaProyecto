@@ -61,8 +61,8 @@
                 <label class="col-form-label">Rut:</label>
                 <div id="div3" class="col">
                   <input id="rut" type="text" name="rut_rec" class="form-control" 
-                    pattern="^([1-9]|[1-9]\d|[1-9]\d{2})(\.\d{3})*\-(\d|k|K)$" 
-                    title="El Rut debe tener este formato: '00.000.000-0" required>
+                  pattern="\d{7,8}-\d|[\d|kK]" 
+                  title="Ingresa un rut válido (Ejemplo: 12345678-9)" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="rutInv" class="invalid-feedback"></div>
@@ -83,7 +83,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Dirección:</label>
                 <div id="div5" class="col">
-                  <input id="direccion" type="text" name="direccion_rec" class="form-control" required>
+                  <input id="direccion" type="text" name="direccion_rec" class="form-control" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.-]{1,50}\s[0-9]{1,5}" title="Ingresa una dirección válida" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="direccionInv" class="invalid-feedback"></div>
