@@ -36,7 +36,9 @@
               <div class="row mb-3">
                 <label for="inputEmail3" class="col-form-label">Nombres:</label>
                 <div id="div1" class="col">
-                  <input id="nombres" type="text" name="nombres_rec" class="form-control" required>
+                  <input id="nombres" type="text" name="nombres_rec" class="form-control"
+                    pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+"
+                    title="Ingrese ambos nombres" required>
                 </div>
                 <!--Mensaje de Error-->
                 <div id="nombreInvalido" class="invalid-feedback"></div>
@@ -46,7 +48,9 @@
               <div class="row mb-3">
                 <label class="col-form-label">Apellidos:</label>
                 <div id="div2" class="col">
-                  <input type="text" name="apellidos_rec" class="form-control" id="apellidos" required>
+                  <input type="text" name="apellidos_rec" class="form-control" id="apellidos" 
+                    pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+"
+                    title="Ingrese ambos apellidos" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="apellidoInv" class="invalid-feedback"></div>
@@ -56,7 +60,9 @@
               <div class="row mb-3">
                 <label class="col-form-label">Rut:</label>
                 <div id="div3" class="col">
-                  <input id="rut" type="text" name="rut_rec" class="form-control" required>
+                  <input id="rut" type="text" name="rut_rec" class="form-control" 
+                    pattern="^([1-9]|[1-9]\d|[1-9]\d{2})(\.\d{3})*\-(\d|k|K)$" 
+                    title="El Rut debe tener este formato: '00.000.000-0" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="rutInv" class="invalid-feedback"></div>
@@ -66,7 +72,8 @@
               <div class="row mb-3">
                 <label class="col-form-label">Celular:</label>
                 <div id="div4" class="col">
-                  <input id="celular" type="text" name="celular" class="form-control" required>
+                  <input id="celular" type="text" name="celular" class="form-control" 
+                    pattern="[0-9]{9}" title="Ingresa número de celular válido (Ejemplo: 912345678)" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="celularInv" class="invalid-feedback"></div>
