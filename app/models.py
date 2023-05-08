@@ -14,6 +14,13 @@ class RegistroUsuario(models.Model):
 
     def __str__(self):
         return self.nombres
+    
+class LoginUser(models.Model):
+    username = models.CharField(max_length=20,verbose_name="Nombre de Usuario")
+    password = models.CharField(max_length=30, verbose_name="Contraseña Usuario")
+
+    def __str__(self):
+        return self.username
 
 # Lista de opciones para variable "tipo_usuario"
 class TipoUsuario(models.Model):
@@ -50,7 +57,6 @@ class Medico(models.Model):
     id_med = models.IntegerField(primary_key=True, verbose_name="Id medico")
     rut_med = models.CharField(max_length=12,unique=True,verbose_name="Rut médico")
     nombre_completo = models.CharField(max_length=50, verbose_name="Nombre médico")
-    id_esp = models.ForeignKey(Especialidad, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre_completo
@@ -68,20 +74,21 @@ class ReservarHora(models.Model):
     prevision = models.ForeignKey(Prevision,on_delete=models.CASCADE, verbose_name="Id previsión")
 
     def __str__(self):
-        return self.rut_pac
+        return self.rut
 
 # Modelo Confirmar Reservar Hora
 class ConfirmarReserva(models.Model):
-    id_res = models.IntegerField(primary_key=True, verbose_name="Id reserva")
-    nombre_pac = models.CharField(null=True,max_length=40, verbose_name="Nombre Paciente")
-    apellidos_pac = models.CharField(null=True,max_length=50, verbose_name="Apelldos Paciente")
-    nombre_medico = models.CharField(max_length=30, verbose_name="Nombre médico")
+    id_res = models.AutoField(primary_key=True, verbose_name="Id reserva")
+    rut = models.CharField(max_length=12,verbose_name="Rut paciente")
+    prevision = models.CharField(max_length=40,verbose_name="Id prevision de salud")
+    nombre_medico = models.CharField(max_length=50, verbose_name="Nombre médico")
     id_esp = models.ForeignKey(Especialidad,on_delete=models.CASCADE,verbose_name="Especialidad médico")
     dia_agendado = models.DateField(null=False)
     hora_agendada = models.TimeField(null=False)
+    
 
     def __str__(self):
-        return self.nombre_pac
+        return self.rut
     
 class RecuperarContraseña(models.Model):
     correo = models.CharField(max_length=50)

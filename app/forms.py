@@ -1,5 +1,5 @@
 from django import forms
-from .models import RegistroUsuario,Reclamo,ReservarHora,ConfirmarReserva,ModificarPerfil,RecuperarContraseña, ConsultaMed, ConsultaCovid19
+from .models import RegistroUsuario,LoginUser,Reclamo,ReservarHora,ConfirmarReserva,Especialidad,ModificarPerfil,RecuperarContraseña, ConsultaMed, ConsultaCovid19
 from django.forms import ModelForm
 
 # Clase del formulario de registro
@@ -21,6 +21,12 @@ class RegistroUserForm(ModelForm):
             'direccion': forms.TextInput(attrs={'class':'form-control'}),
             'fecha_nacimiento': forms.TextInput(attrs={'class':'form-control'}),
         }
+
+class LoginUserForm(ModelForm):
+
+    class Meta:
+        model = LoginUser
+        fields = '__all__'
     
 class ReclamoForm(ModelForm):
 
@@ -48,14 +54,16 @@ class ConfirmarReservaForm(ModelForm):
         fields = '__all__'
 
         widgets = {
-            'rut': forms.TextInput(attrs={'class':'form-control'}),
-            'prevision': forms.Select(attrs={'class':'form-control'}),
-            'medico': forms.TextInput(attrs={'class':'form-control'}),
-            'especialidad': forms.TextInput(attrs={'class':'form-control'}),
-            'dia_agendado': forms.TextInput(attrs={'class':'form-control'}),
-            'hora_agendada': forms.TextInput(attrs={'class':'form-control'}),
-
+            'id_res': forms.TextInput(attrs={'class': 'form-control'}),
+            'rut': forms.TextInput(attrs={'class': 'form-control'}),
+            'prevision': forms.TextInput(attrs={'class': 'form-control'}),
+            'nombre_medico': forms.TextInput(attrs={'class': 'form-control'}),
+            'id_esp': forms.TextInput(attrs={'class': 'form-control'}),
+            'dia_agendado': forms.DateInput(attrs={'class': 'form-control'}),
+            'hora_agendada': forms.TimeInput(attrs={'class': 'form-control'}),
+            
         }
+
 
 class RecuperarContraseñaForm(ModelForm):
 

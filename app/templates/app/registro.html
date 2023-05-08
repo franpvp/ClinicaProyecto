@@ -37,6 +37,8 @@
                       id="{{ form.nombres.id_for_label }}"
                       class="form-control"
                       placeholder="name"
+                      pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+"
+                      title="Ingresa ambos nombres."
                       required>
                     <label for="{{ form.nombres.id_for_label}}">Nombres:</label>
                     {% if form.nombres.errors %}
@@ -56,6 +58,8 @@
                     id="{{ form.apellidos.id_for_label }}"
                     class="form-control"
                     placeholder="name"
+                    pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+"
+                    title="Ingresa ambos apellidos."
                     required>
                   <label for="{{ form.apellidos.id_for_label }}">Apellidos:</label>
                   {% if form.apellidos.errors %}
@@ -77,6 +81,8 @@
                     id="correo"
                     class="form-control"
                     placeholder="name@example.cl"
+                    pattern="[a-zA-Z0-9._%+-]+@(gmail\.com|hotmail\.com)"
+                    title="El email debe tener el siguiente formato: email@example.cl"
                     required>
                   <label >Correo Electrónico:</label>
                   {% if form.correo.errors %}
@@ -96,6 +102,8 @@
                     class="form-control"
                     placeholder="name@example.cl"
                     autocomplete="username"
+                    pattern="^(?=.*\d.*\d)[a-z\d@$!%*?&]{8,}$"
+                    title="El nombre de usuario debe contener 8 caracteres, 2 dígitos, y puede contener caracteres especiales"
                     required
                     {% if form.nombre_usuario.required %} required {% endif %}>
                   <label for="{{ form.nombre_usuario.id_for_label }}">Nombre de Usuario:</label>
@@ -117,6 +125,7 @@
                     id="{{ form.contraseña.id_for_label }}"
                     class="form-control"
                     placeholder="name@example.cl"
+                    pattern="^(?=.*[A-Z])(?=.*\d.*\d)(?=.*[@.*])[A-Za-z\d@.*]{8,}$"
                     autocomplete="current-password"
                     required
                     {% if form.contraseña.required %} required {% endif %}>
@@ -158,6 +167,8 @@
                     id="direccion"
                     class="form-control"
                     placeholder="name@example.cl"
+                    pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.-]{1,50}\s[0-9]{1,5}"
+                    title="Ingresa una dirección válida"
                     required>
                   <label >Dirección:</label>
                   {% if form.direccion.errors %}

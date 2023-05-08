@@ -1,0 +1,2 @@
+WALLET_LOCATION = (SOURCE = (METHOD = file) (METHOD_DATA = (DIRECTORY="/Users/franciscavaldiviapalma/Desktop/Analista Programador Computacional/Quinto Bimestre/Programación Web/Semana 8/ClinicaProyecto/app/cartera")))
+SSL_SERVER_DN_MATCH=yes

@@ -27,7 +27,7 @@
       <div class="row">
         <div class="col"></div>
         <div class="col-xs-10 col-sm-10 col-md-8 col-lg-6">
-          <form id="formulario" method="post" action="{% url 'reservar-hora' %}">
+          <form id="formulario" method="post" action="{% url 'reservar-hora' %}" onsubmit="return validarFormulario()">
             {% csrf_token %}
               <!-- Titulo de Formulario -->
               <legend class="titulo-reg text-center mb-2">Reservar Hora</legend>
@@ -35,7 +35,7 @@
               <!-- Input Rut Paciente -->
                 <div class="col">
                     <div id="formFloating3" class="form-floating">
-                      <input name="rut" type="text" class="form-control" placeholder="name@example.com" required>
+                      <input id="rut" name="rut" type="text" pattern="\d{7,8}-\d|[\d|kK]" class="form-control" placeholder="name@example.com" required title="Ingresa un rut válido (Ejemplo: 12345678-9)">
                       <label for="rut">Ingrese rut</label>
                     </div>
                     <div id="rutInv" class="invalid-feedback"></div>
@@ -62,6 +62,23 @@
         <div class="col"></div>
       </div>
     </div>
+
+    <script>
+      function validarFormulario() {
+        var rutInput = document.getElementById('rut');
+        var rut = rutInput.value;
+
+        if (!/^[\d\-]+$/.test(rut)) {
+          alert('El rut solo puede contener números y el guión (-)');
+          rutInput.focus();
+          return false;
+        }
+
+        rut = rut.replace(/\./g, '')
+
+        return true;
+      }
+    </script>
 
     
 

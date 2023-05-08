@@ -1,15 +1,15 @@
 from django.shortcuts import render, redirect, reverse, get_object_or_404
-from .forms import RegistroUserForm,ReclamoForm,ReservaForm,ConfirmarReservaForm,ModificarPerfilForm, RecuperarContraseñaForm
+from .forms import RegistroUserForm,ReclamoForm,ReservaForm,ConfirmarReservaForm,ModificarPerfilForm, RecuperarContraseñaForm, LoginUserForm
 from django.contrib import messages
 # Funciones que autentican el usuario
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.hashers import check_password
 from django.contrib.auth.decorators import login_required
-from .utils import validar_rut
 from .models import RegistroUsuario, TipoUsuario, Prevision, Especialidad, Medico
 import requests
 from googletrans import Translator
+from rest_framework.response import Response
 
 
 # Create your views here.
@@ -67,11 +67,31 @@ def registro(request):
 
     return render(request, 'app/registro.html', datos)
 
+def loginUser(request):
+    if request.method == 'POST':
+        username_ing = request.POST.get('username')
+        password_ing = request.POST.get('password')
+
+        try:
+            user = User.objects.get(username=username_ing)
+            if user.check_password(password_ing):
+                usuario = authenticate(
+                    username = usuario.username,
+                    password = usuario.password
+                )
+                login(request, usuario)
+                return redirect('home')
+            else:
+                messages.error(request, "Contraseña incorrecta")
+        
+        except User.DoesNotExist:
+            messages.error(request, "Usuario no encontrado")
+    
+    return render(request, 'registration/login.html')
 
 def modPerfil(request):
     usuario = request.user.username
     registro = get_object_or_404(RegistroUsuario,nombre_usuario = usuario)
-    print('registro: ', registro)
     if request.method == 'POST':
         formulario = RegistroUserForm(request.POST, instance=registro)
         nombres_input = request.POST.get('nombres')
@@ -95,13 +115,15 @@ def reservarHora(request):
         'form': ReservaForm()
     }
     
-
     if request.method == 'POST':
         formulario = ReservaForm(request.POST)
         if formulario.is_valid():
             rut = formulario.cleaned_data['rut']
             prevision = formulario.cleaned_data['prevision']
-            return redirect('/confirmar-reserva/' + rut + '/' + str(prevision))
+            if len(rut) >= 9 and len(rut) <= 10:
+                return redirect('/confirmar-reserva/' + rut + '/' + str(prevision))
+            else:
+                messages.error(request, "La contraseña no cumple con el formato especificado")
     else:
         datos["form"] = ReservaForm()
 
@@ -112,12 +134,32 @@ def reservarHora(request):
     return render(request, 'app/reservar-hora.html',context)
 
 def confirmarReserva(request, rut, prevision):
+
     datos = {
         'form': ConfirmarReservaForm()
     }
+
     especialidades = Especialidad.objects.all()
     medicos = Medico.objects.all()
 
+    if request.method == 'POST':
+        formulario = ConfirmarReservaForm(request.POST)
+        rut_ing = request.POST.get('rut')
+        prevision = request.POST.get('prevision')
+        medico_id = request.POST.get('nombre_medico')
+        id_esp = request.POST.get('id_esp')
+        medico = Medico.objects.get(id_med=medico_id)
+
+        if formulario.is_valid():
+            formulario.instance.nombre_medico = medico
+            formulario.save()
+            messages.success(request, "Hora agendada exitosamente")
+        else:
+            print(formulario.errors)
+            messages.error(request, "Error al confirmar hora")
+    else:
+        datos["form"] = ConfirmarReservaForm()
+        
     context = {
         'rut': rut,
         'prevision': prevision,
@@ -125,18 +167,6 @@ def confirmarReserva(request, rut, prevision):
         'medicos': medicos
     }
     
-    if request.method == 'POST':
-        formulario = ConfirmarReservaForm(request.POST)
-        if formulario.is_valid():
-            formulario.save()
-            messages.success(request, "Hora agendada exitosamante")
-        else:
-            messages.error(request, "Error al confirmar hora")
-    else:
-        datos["form"] = ConfirmarReservaForm()
-    
-    
-
     return render(request, 'app/confirmar-reserva.html', context)
 
 def recContraseña(request):
@@ -264,3 +294,4 @@ def consultasCovid19(request):
             messages.error(request, "Ingrese pais")
 
     return render(request, 'app/consultas-covid.html', context)
+

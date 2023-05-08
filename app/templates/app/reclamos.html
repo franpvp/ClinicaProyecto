@@ -46,7 +46,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Apellidos:</label>
                 <div id="div2" class="col">
-                  <input type="text" name="apellidos_rec" class="form-control" id="apellidos" required>
+                  <input type="text" name="apellidos_rec" class="form-control" id="apellidos" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ]+\s[A-Za-zÁÉÍÓÚáéíóúÑñ]+" title="Ingresa ambos apellidos." required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="apellidoInv" class="invalid-feedback"></div>
@@ -56,7 +56,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Rut:</label>
                 <div id="div3" class="col">
-                  <input type="text" name="rut_rec" class="form-control" id="rut" required>
+                  <input id="rut" type="text" name="rut_rec" class="form-control" pattern="\d{7,8}-\d|[\d|kK]" title="Ingresa un rut válido (Ejemplo: 12345678-9)" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="rutInv" class="invalid-feedback"></div>
@@ -66,7 +66,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Celular:</label>
                 <div id="div4" class="col">
-                  <input id="celular" type="text" name="celular" class="form-control" required>
+                  <input id="celular" type="text" name="celular" class="form-control" pattern="[0-9]{9}" title="Ingresa número de celular válido (Ejemplo: 912345678)" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="celularInv" class="invalid-feedback"></div>
@@ -76,7 +76,7 @@
               <div class="row mb-3">
                 <label class="col-form-label">Dirección:</label>
                 <div id="div5" class="col">
-                  <input type="text" name="direccion_rec" class="form-control" id="direccion" required>
+                  <input id="direccion" type="text" name="direccion_rec" class="form-control" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ\s.-]{1,50}\s[0-9]{1,5}" title="Ingresa una dirección válida" required>
                 </div>
                 <!-- Mensaje de Error -->
                 <div id="direccionInv" class="invalid-feedback"></div>
@@ -135,7 +135,6 @@
         </div>
       </div>
       
-    <!-- <script src="{% static 'app/js/validReclamos.js' %}"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     
 </body>

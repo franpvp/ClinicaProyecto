@@ -34,7 +34,7 @@
               <!-- Input Rut Paciente -->
                 <div class="col">
                     <div id="formFloating3" class="form-floating">
-                      <input id="rut" type="text" name="rut" value="{{ rut }}" class="form-control" placeholder="name@example.com" disabled>
+                      <input id="rut" type="text" name="rut" value="{{ rut }}" class="form-control" placeholder="name@example.com" readonly>
                       <label for="floatingInput">Rut: </label>
                     </div>
                     <div id="rutInv" class="invalid-feedback"></div>
@@ -42,7 +42,7 @@
                 <!-- Input Previsión de Salud-->
                 <div class="col">
                   <div id="formFloating3" class="form-floating">
-                    <input id="prevision" type="text" name="prevision" value="{{ prevision }}" class="form-control" placeholder="name@example.com" disabled>
+                    <input id="prevision" type="text" name="prevision" value="{{ prevision }}" class="form-control" placeholder="name@example.com" readonly>
                     <label for="floatingInput">Previsión:</label>
                   </div>
                 </div>
@@ -52,9 +52,9 @@
                 <div class="col">
                   <div class="input-group mb-3">
                     <label class="input-group-text">Especialidad:</label>
-                    <select class="form-select" name="especialidades" aria-label="Default select example">
+                    <select class="form-select" name="id_esp" aria-label="Default select example" onchange="actualizarMedicos()">
                       {% for esp in especialidades %}
-                        <option value="{{ esp.id_esp }}">{{ esp.nombre_esp }}</option>
+                        <option data-id-esp="{{ esp.id_esp }}" value="{{ esp.id_esp }}">{{ esp.nombre_esp }}</option>
                       {% endfor %}
                     </select>
                   </div>
@@ -63,7 +63,7 @@
                 <div class="col">
                   <div class="input-group mb-3">
                     <label class="input-group-text" for="{{ form.prevision.id_for_label }}">Médico:</label>
-                    <select class="form-select" name="medicos" aria-label="Default select example">
+                    <select id="nombre_medico" class="form-select" name="nombre_medico" aria-label="Default select example">
                       {% for medico in medicos %}
                         <option value="{{ medico.id_med }}">{{ medico.nombre_completo }}</option>
                       {% endfor %}
@@ -76,7 +76,7 @@
                 <!-- Campo Agendar Dia -->
                 <div class="col">
                   <div id="formFloating3" class="form-floating">
-                    <input type="date" name="dias_disponibilidad"
+                    <input type="date" name="dia_agendado"
                       id="fecha"
                       class="form-control"
                       placeholder="dd-mm-yyyy"
@@ -90,25 +90,25 @@
                 <div class="col">
                   <div class="input-group mb-3 ">
                     <label class="input-group-text">Horas Disponibles:</label>
-                    <select class="form-select" name="horas">
-                      <option value="1">9:00 hrs</option>
-                      <option value="2">9:30 hrs</option>
-                      <option value="3">10:00 hrs</option>
-                      <option value="4">10:30 hrs</option>
-                      <option value="5">11:00 hrs</option>
-                      <option value="6">11:30 hrs</option>
-                      <option value="7">12:00 hrs</option>
-                      <option value="8">12:30 hrs</option>
-                      <option value="9">13:00 hrs</option>
-                      <option value="10">13:30 hrs</option>
-                    </select>
+                    <input type="time" name="hora_agendada" class="form-control" min="09:00" max="18:00" step="900" required >
                   </div>
                 </div>
               </div>
               <!-- Boton Confirmar -->
-              <div class="contenedor-boton">
+              <div class="contenedor-boton mb-3">
                 <button id="btn-enviar" type="submit" class="btn btn-primary link">Confirmar</button>
               </div>
+              {% if messages %}
+                <div class="messages">
+                  {% for message in messages %}
+                    {% if message.tags == 'success' %}
+                      <div class="success alert alert-success text-center">{{ message }}</div>
+                    {% else %}
+                      <div class="error alert alert-danger text-center">{{ message }}</div>
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
             </form>
           </div>
           <div class="col"></div>
