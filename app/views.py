@@ -261,7 +261,6 @@ def consultasMed(request):
 
     return render(request, 'app/consultas-medicamentos.html', context)
 
-# Falta arreglar la API
 def consultasCovid19(request):
     context = {}
     if request.method == 'GET' and 'pais' in request.GET:
@@ -281,10 +280,10 @@ def consultasCovid19(request):
                     total_recuperaciones = latest_data['total_recoveries']
 
                     context = {
-                            'pais': pais_es.capitalize(),
-                            'casos_totales': casos_totales,
-                            'total_muertes': total_muertes,
-                            'total_recuperaciones': total_recuperaciones,
+                        'pais': pais_es.capitalize(),
+                        'casos_totales': casos_totales,
+                        'total_muertes': total_muertes,
+                        'total_recuperaciones': total_recuperaciones,
                     }
                 else:
                     messages.error(request, 'No se encontraron datos para el país especificado.')
